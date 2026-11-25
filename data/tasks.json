@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:55:46+00:00",
+  "updated_at": "2026-11-25T10:57:07+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -1054,27 +1054,33 @@
       "description": "Revisar con dirección de producto las decisiones de arquitectura, base de datos, mapas, simulación, roles, comunicaciones, piloto y propiedad del código. Registrar cada decisión, responsable y pruebas requeridas.",
       "why": "Si se programan módulos sobre supuestos diferentes habrá que reconstruirlos después.",
       "acceptance": "Existe una lista de decisiones aprobadas y pendientes que todos los desarrolladores puedan consultar.",
-      "depends": "OX-01, OX-02",
+      "depends": "",
       "chapter": "20 / 24",
       "phase": "04 · Preparar el piloto",
-      "priority": "P0",
-      "owner": "Fabián",
-      "frustration": null,
-      "author_effort": null,
+      "priority": "P2",
+      "owner": "Yeray",
+      "frustration": 8,
+      "author_effort": 5,
       "dev_effort": null,
       "dev_response": "",
       "custom_txt": "# OX-24 · Cerrar decisiones técnicas con el equipo\n\n| Campo | Valor |\n|---|---|\n| Fase | 04 · Preparar el piloto |\n| Tipo | Feature (gobierno técnico; documento y acuerdos) |\n| Punto de la reunión 24/11 | 24 · Coordinar al equipo de desarrollo |\n| Nivel propuesto para el piloto | Núcleo obligatorio (condición de trabajo) |\n| Depende de | OX-01 |\n| Bloquea | OX-02, OX-23 y el reparto de todas las tareas |\n| Decisiones de referencia | `ADR-024-001` a `ADR-024-011` ([ESP] §24.144–§24.154) |\n\n> Aunque está en la fase 04, conviene **arrancarla en paralelo con OX-01**: sin decisiones cerradas el resto de tareas no está «preparado para desarrollo».\n\n## Objetivo\n\nQue los programadores trabajen con tareas y decisiones compartidas, responsables claros y pruebas concretas, para que los avances lleguen ordenados y se puedan enseñar resultados.\n\n## Contexto relevante\n\n**[Hecho]**\n- Repositorio público `LODESA-INTERPRISE-CANARIAS/OxEye`, despliegue a GitHub Pages en cada push a `main` (lint → test → build). La CI no ejecuta E2E.\n- El repositorio tiene dos agentes locales definidos en `.agents/agents/` (`prompt-engineer`, `oxeye-developer`).\n- Decisiones internas pendientes de la auditoría del 25/11 (D1–D11): estructura del entorno de agentes, carpeta `.agents/`, flujo git + PR, idioma de las especificaciones, commit de Prettier, activar `strict`, próximo frente, modelos.\n- Reglas ya acordadas por la dirección (25/11): ramas `feat/` o `fix/` por tarea; ningún desarrollo empieza sin aprobación explícita del plan; merge, despliegue y operaciones destructivas solo con instrucción expresa.\n\n**[ESP]** (capítulo 20 y parte XII del capítulo 24)\n- Modelo de equipo de 4 funciones **propuesto** ([ESP] §20.24): dirección de producto y diseño; ingeniería A (arquitectura, backend, persistencia); ingeniería B (frontend, integración); especialidad de simulación y algoritmos. Matriz de responsabilidades en [ESP] §20.31. La asignación concreta de cada persona debe acordarse; el documento no crea obligaciones contractuales ([ESP] §20.30).\n- *Definition of Ready* ([ESP] §20.63) y *Definition of Done* ([ESP] §20.62, §24.164). `MST-009`: terminar código no es terminar una función.\n- Revisión cruzada obligatoria en reservas, economía, permisos, persistencia, simulación, integraciones y seguridad ([ESP] §24.161).\n\n## Requisitos funcionales (entregables)\n\n1. **Registro de decisiones (ADR)** con las 11 decisiones de la especificación: arquitectura física, base de datos, cartografía, ejecución de simulaciones, modo desconectado, integraciones, alcance del piloto, datos territoriales, roles y equipo, derechos de explotación y marco de seguridad. Cada una con estado, responsable y fecha de revisión.\n2. Decisiones técnicas internas: `strict` de TypeScript (sí/no y plan), aplicar Prettier en un commit único, E2E en CI, estructura de ramas, revisión de código obligatoria y quién aprueba los merges.\n3. **Matriz de responsabilidades** con personas reales, aprobada internamente.\n4. Plantilla de tarea común (la de estas 24 fichas) y *Definition of Ready* / *Definition of Done* acordadas.\n5. Ritual de seguimiento: frecuencia, acta breve, informe de avance y demostraciones ([ESP] §20.39–§20.41, §20.100–§20.102).\n6. Tablero de tareas con las 24 OX, responsable, estado y dependencias.\n\n## Requisitos no funcionales / restricciones\n\n- Las decisiones se registran por escrito; nada se resuelve con suposiciones silenciosas ([ESP] §24.143).\n- Ninguna decisión técnica puede relajar las 5 restricciones no negociables del proyecto.\n- Los secretos nunca entran en el repositorio público.\n\n## Criterios de aceptación\n\n- [ ] Existe el registro ADR con las 11 decisiones y cada una tiene estado y responsable.\n- [ ] La matriz de responsabilidades está aprobada por el equipo.\n- [ ] DoR y DoD están escritas y aceptadas.\n- [ ] Cada tarea OX tiene responsable asignado en el tablero.\n- [ ] La CI ejecuta lint, tests unitarios, build y, cuando OX-01 los repare, E2E.\n\n## Pruebas / verificación\n\n- Revisión del registro ADR en reunión de equipo, con acta.\n- Comprobar que la primera tarea asignada tras OX-24 cumple la DoR antes de empezar.\n\n## Riesgos y supuestos\n\n- **Riesgo:** decisiones que dependen de presupuesto (servidor) o de terceros (datos del Ayuntamiento). Registrarlas como *pendientes con condición*.\n- **Riesgo:** confundir dirección funcional con autoría o propiedad intelectual (`EXP-010`). Fuera del alcance técnico; requiere acuerdo aparte.\n- **Supuesto:** el equipo de desarrollo actual puede cubrir las 4 funciones propuestas; si no, se ajusta el alcance en OX-23.\n",
       "status": "open",
-      "version": 2,
+      "version": 3,
       "created_by": "Importación original",
       "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T10:43:15+00:00",
+      "updated_at": "2026-11-25T10:57:07+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
       "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "depends, priority, owner, frustration, author_effort",
+          "created_at": "2026-11-25T10:57:07+00:00"
+        },
         {
           "actor": "YELODESA",
           "action": "tarea-editada",
