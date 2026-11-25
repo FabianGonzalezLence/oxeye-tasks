@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:42:23+00:00",
+  "updated_at": "2026-11-25T10:42:35+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -787,18 +787,25 @@
       "author_effort": null,
       "dev_effort": null,
       "dev_response": "",
-      "custom_txt": "",
+      "custom_txt": "# OX-21 · Guardar, recuperar y proteger datos compartidos\n\n| Campo | Valor |\n|---|---|\n| Fase | 04 · Preparar el piloto |\n| Tipo | Feature |\n| Punto de la reunión 24/11 | 21 · Información segura y compartida + aclaración 03 «Servidor compartido» |\n| Nivel propuesto para el piloto | Núcleo obligatorio ([ESP] §20.10, puntos 3, 11, 15 y 18) |\n| Depende de | OX-02, OX-03 |\n| Bloquea | OX-22 (etapa 14) |\n| Rama sugerida | `feat/ox-21-persistencia-copias` |\n\n## Objetivo\n\nQue los cambios confirmados se vean en todos los equipos autorizados, con copias de seguridad y permisos, para evitar versiones diferentes del mismo evento.\n\n## Contexto relevante\n\n**[Hecho]**\n- Hoy cada navegador guarda su propia copia (Dexie/IndexedDB y `localStorage`) y se comparte enviando el archivo `Ojo_de_Buey_Proyecto.json`. Dos personas pueden tener dos versiones distintas sin saberlo.\n- Reunión 24/11: el servidor compartido está estudiado, pero **su puesta en marcha depende del presupuesto**, distinto de la inversión en herramientas de desarrollo.\n\n**[ESP]** (capítulos 04 y 19)\n- `INV-004`: una edición obsoleta no sobrescribe en silencio otra posterior. `INV-015`: datos críticos con mecanismo de recuperación. `INV-019`: reintentos sin duplicados. `MST-006`: un corte de red no convierte una operación incierta en dos compromisos.\n- `TEC-007`: el almacenamiento local no es la única copia de datos compartidos. `UX-005`: no mostrar «Guardado» si solo está en local.\n- `VAL-CORE-TRANSACTION-001`: con un fallo a mitad de una operación que toca varias entidades, no quedan estados parciales confirmados. Prueba de recuperación ([ESP] §21.70).\n\n## Requisitos funcionales\n\n1. Implementar la persistencia compartida elegida en OX-02 (o, sin servidor, el plan B documentado allí).\n2. **Control de versiones optimista**: cada entidad tiene versión; si dos personas editan la misma, la segunda recibe un conflicto con las dos versiones y elige, en vez de sobrescribir.\n3. Operaciones que tocan varias entidades (por ejemplo, una reconciliación de OX-08) se guardan de forma atómica.\n4. **Copias de seguridad** automáticas con frecuencia definida y **prueba de restauración** documentada.\n5. Historial de cambios por entidad: quién, cuándo, qué (`INV-012`).\n6. Importación de los JSON actuales al nuevo almacenamiento, sin duplicados (`INV-001`).\n7. Exportación estructurada del evento bajo petición.\n\n## Requisitos no funcionales / restricciones\n\n- Permisos comprobados en servidor en cada operación (`INV-011`).\n- Datos del `Punto Violeta` cifrados o separados según decida OX-02, con acceso restringido y registrado.\n- Secretos fuera del navegador y del repositorio público (el repositorio es público).\n- Indicador de guardado honesto en la interfaz (OX-20).\n\n## Criterios de aceptación\n\n- [ ] Dos personas editan la misma instalación; la segunda recibe un conflicto y nada se pierde.\n- [ ] `VAL-CORE-TRANSACTION-001` pasa.\n- [ ] Se borra un evento de prueba y se restaura desde copia en el tiempo objetivo acordado.\n- [ ] Un JSON exportado con la versión 0.16.0 se importa sin duplicados.\n- [ ] Un usuario sin permisos no puede leer ni escribir por API.\n\n## Pruebas / verificación\n\n- Tests de integración de concurrencia y transacciones.\n- Ensayo de restauración real, con acta (fecha, duración, resultado).\n- Test de reintento con la misma operación (idempotencia).\n\n## Riesgos y supuestos\n\n- **Riesgo principal:** sin presupuesto de servidor esta tarea solo puede cubrir el plan B local, y el piloto no podrá mostrar datos compartidos entre equipos. Debe decirse claramente en OX-23.\n- **Decisión pendiente:** objetivo de recuperación (cuánto dato se puede perder y en cuánto tiempo se restaura). No prometer disponibilidad sin recursos (`EXP-009`, `TEC-016`).\n",
       "status": "open",
-      "version": 1,
+      "version": 2,
       "created_by": "Importación original",
-      "updated_by": "Importación original",
+      "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T00:10:04+00:00",
+      "updated_at": "2026-11-25T10:42:35+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
-      "activity": []
+      "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "custom_txt",
+          "created_at": "2026-11-25T10:42:35+00:00"
+        }
+      ]
     },
     {
       "id": "OX-22",
