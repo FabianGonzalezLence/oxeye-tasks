@@ -315,6 +315,7 @@ async function ghFetch(url, {method = 'GET', body, headers = {}, raw = false} = 
 
 function normalizeTask(t) {
   return {
+    ...t,
     id: t.id || ('OX-' + uid(7).toUpperCase()),
     type: t.type === 'fix' ? 'fix' : 'feature',
     title: String(t.title || ''),
@@ -361,6 +362,7 @@ async function fetchDbFromGitHub(force = false) {
     }
     const parsed = JSON.parse(text);
     const db = {
+      ...parsed,
       schema_version: parsed.schema_version || 1,
       updated_at: parsed.updated_at || nowIso(),
       updated_by: parsed.updated_by || 'Equipo',
