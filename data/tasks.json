@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:38:20+00:00",
+  "updated_at": "2026-11-25T10:38:34+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -343,18 +343,25 @@
       "author_effort": null,
       "dev_effort": null,
       "dev_response": "",
-      "custom_txt": "",
+      "custom_txt": "# OX-09 · Proveedores y comparación de presupuestos\n\n| Campo | Valor |\n|---|---|\n| Fase | 02 · Preparar el evento |\n| Tipo | Feature |\n| Punto de la reunión 24/11 | 09 · Comparar proveedores |\n| Nivel propuesto para el piloto | Ampliación prioritaria ([ESP] §20.11: portal de proveedores y solicitudes de presupuesto) |\n| Depende de | OX-03, OX-05, OX-07 |\n| Bloquea | OX-22 (etapa 5 del escenario integral) |\n| Rama sugerida | `feat/ox-09-ofertas-proveedores` |\n\n## Objetivo\n\nOrdenar las ofertas de los proveedores y compararlas por **coste total** (precio, transporte, montaje y condiciones), en lugar de correos dispersos y comparaciones manuales.\n\n## Contexto relevante\n\n**[Hecho]**\n- Ya existen empresas adjudicatarias, cuadrillas y recursos (`OrganizationsDialog.tsx`, `companies.ts`) y contactos con enlaces `mailto:`/WhatsApp y exportación CSV (`ContactsDialog.tsx`). No hay solicitudes de oferta ni comparación.\n\n**[ESP]** (capítulo 06)\n- Datos de prueba del escenario `DEMO-CRISTO-001` ([ESP] §21.23 y §21.24): PROV-A (carpas), PROV-B (escenario), PROV-C (transporte). Ofertas para una carpa adicional: A 180 € con transporte aparte; B 210 € con transporte incluido; C 195 € con montaje aparte. **La oferta de menor precio base no debe declararse la más barata en coste total.**\n- `VAL-CON-QUOTES-001`: mostrar precio base, transporte, montaje, condiciones, costes no definidos y coste comparable cuando sea calculable.\n- [ESP] §24.75: una oferta recibida no se convierte en compromiso confirmado. `ECO-006`: un precio extraído de un PDF no se convierte en coste comprometido sin validación. `INTG-006`/`INTG-007`: un correo no autoriza cambios contractuales.\n- `ANA-006`: no asignar «reputación» a un proveedor con muestras insuficientes.\n\n## Requisitos funcionales\n\n1. Crear una **solicitud de oferta** a partir de una necesidad con déficit (OX-05): qué, cuántas unidades, fechas, lugar, condiciones requeridas.\n2. Registrar **ofertas** recibidas por proveedor: conceptos desglosados (precio base, transporte, montaje, desmontaje, fianza, impuestos), validez, condiciones y documento adjunto.\n3. Tabla comparativa normalizada: mismos conceptos en columnas; los que falten aparecen como «no definido», no como cero.\n4. Coste comparable solo cuando todas las ofertas tienen los mismos conceptos definidos; si no, la tabla explica por qué no se puede comparar.\n5. Seleccionar una oferta crea un **estado ofertado** en la partida (OX-07), nunca un compromiso. El paso a comprometido requiere una acción explícita de un rol autorizado.\n6. Historial de ofertas por proveedor y evento.\n\n## Requisitos no funcionales / restricciones\n\n- El envío real de solicitudes por correo queda fuera de esta tarea (depende de OX-15 y de OX-02). En el piloto se usan buzones de prueba o envío simulado.\n- Datos de contacto de proveedores: solo los profesionales necesarios.\n- Indicar siempre si los importes incluyen impuestos (`ECO-005`).\n\n## Criterios de aceptación\n\n- [ ] `VAL-CON-QUOTES-001` con las ofertas A, B y C: la tabla muestra los conceptos desglosados, marca los que faltan y no declara vencedora la oferta A por su precio base.\n- [ ] Seleccionar una oferta cambia la partida a *ofertado* y no a *comprometido*.\n- [ ] Una oferta sin transporte definido aparece con ese concepto como «no definido».\n- [ ] La comparación queda guardada y se puede consultar después.\n\n## Pruebas / verificación\n\n- Unitarias de normalización y del cálculo de coste comparable.\n- Test de que ninguna operación de esta tarea crea compromisos.\n- E2E: déficit → solicitud → 3 ofertas → comparar → seleccionar.\n\n## Riesgos y supuestos\n\n- **Riesgo:** proveedores con conceptos difíciles de normalizar. Permitir conceptos «otros» visibles en la comparación.\n- **Decisión pendiente:** si los proveedores introducirán sus ofertas en un portal con acceso limitado o solo las registra el equipo.\n",
       "status": "open",
-      "version": 1,
+      "version": 2,
       "created_by": "Importación original",
-      "updated_by": "Importación original",
+      "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T00:10:04+00:00",
+      "updated_at": "2026-11-25T10:38:34+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
-      "activity": []
+      "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "custom_txt",
+          "created_at": "2026-11-25T10:38:34+00:00"
+        }
+      ]
     },
     {
       "id": "OX-10",
