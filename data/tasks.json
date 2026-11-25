@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:50:09+00:00",
+  "updated_at": "2026-11-25T10:50:14+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -183,16 +183,22 @@
       "dev_response": "",
       "custom_txt": "# OX-04 · Mantener un recinto y varias distribuciones\n\n| Campo | Valor |\n|---|---|\n| Fase | 01 · Conectar el núcleo |\n| Tipo | Feature |\n| Punto de la reunión 24/11 | 04 · Un plano reutilizable |\n| Nivel propuesto para el piloto | Núcleo obligatorio ([ESP] §20.10, puntos 4 y 5) |\n| Depende de | OX-01, OX-03 |\n| Bloquea | OX-05, OX-07, OX-10, OX-14, OX-18, OX-22 |\n| Hito de referencia | HITO-03 · Cartografía y recinto ([ESP] §20.51) |\n| Rama sugerida | `feat/ox-04-recinto-distribuciones` |\n\n## Objetivo\n\nSeparar el **Recinto** (lo que no cambia: perímetro, accesos fijos, subsuelo, elementos permanentes) de la **Distribución** (lo que se coloca en cada evento: carpas, mesas, escenario, vallas). Así se guarda la plaza una vez y se preparan varias distribuciones sin volver a dibujarla.\n\n## Contexto relevante\n\n**[Hecho]**\n- Hoy el recinto y todo lo colocado viajan juntos en el mismo proyecto. Ya existen piezas con propiedad **Elemento permanente (`permanent`)** y bloqueo (`locked`), que son la base natural del «recinto fijo».\n- Perímetro booleano (`add`/`subtract`), reservas, zonas de interés, subperímetros (`staffFree`), accesos con clipping al perímetro, capa **Rayos X** (subsuelo) y límite de **500 elementos** por recinto.\n- Sistema de coordenadas triple (escena en %, local en metros, UTM `EPSG:32628`).\n- El autoconfigurador espacial (`layout.ts`) ya genera 3 estrategias como vista previa no destructiva.\n\n**[ESP]** (capítulo 09)\n- La geometría debe existir independientemente de su representación gráfica ([ESP] §24.106).\n- Pruebas definidas: `VAL-MAP-CORE-001` (insertar, girar 90°, mover 4 m, guardar, reabrir y conservar identidad, posición, rotación, dimensiones y versión), `VAL-MAP-BOUNDARY-001` (no confirmar una instalación fuera del perímetro ni moverla en silencio) y `VAL-MAP-FOOTPRINT-001` (huella física frente a espacio de uso).\n- `24.77` Mapa → Seguridad: mover una estructura no hereda la conformidad técnica anterior (`INV-014`).\n\n## Requisitos funcionales\n\n1. Entidad `Recinto` reutilizable entre eventos: perímetro, accesos, zonas restringidas, subsuelo Rayos X, elementos `permanent`, ortofoto o base cartográfica y su procedencia.\n2. Entidad `Distribución` ligada a un recinto y a un evento, con nombre, estado (*borrador*, *propuesta*, *vigente*, *archivada*) y versión.\n3. Crear una distribución nueva **en blanco** o **duplicando** otra existente.\n4. Cambiar el recinto (por ejemplo, un nuevo acceso) avisa de qué distribuciones quedan afectadas; no las modifica en silencio.\n5. Solo una distribución puede ser *vigente* por evento y fase operativa.\n6. Las instalaciones conservan identidad propia al duplicar (nuevas identidades, con referencia a la de origen).\n\n## Requisitos no funcionales / restricciones\n\n- **No negociable:** las comprobaciones de Rayos X y `heavyLoad` (`500 kg/m²` en lastres) se reevalúan en cada distribución; no se heredan de otra.\n- **No negociable:** accesos de emergencia y rutas sanitarias A/B/C forman parte del recinto o se comprueban en cada distribución; ninguna distribución puede quedar sin ellos sin aviso bloqueante.\n- No mostrar más decimales de los que justifica el dato (`MAP-009`).\n- Mantener el rendimiento actual del lienzo SVG con hasta 500 elementos.\n\n## Criterios de aceptación\n\n- [ ] Se guarda el recinto «Plaza del Cristo» y se crean dos distribuciones distintas sin redibujar el perímetro.\n- [ ] `VAL-MAP-CORE-001` pasa: la carpa conserva identidad, posición, rotación, dimensiones y versión tras guardar y reabrir.\n- [ ] `VAL-MAP-BOUNDARY-001` pasa: una instalación fuera del perímetro no se puede confirmar como válida y la interfaz explica la causa.\n- [ ] Añadir un acceso al recinto muestra la lista de distribuciones afectadas.\n- [ ] Un proyecto antiguo se abre como recinto + una distribución vigente.\n\n## Pruebas / verificación\n\n- Unitarias de duplicado de distribución (identidades nuevas, referencias de origen).\n- Integración de persistencia (guardar, cerrar, reabrir).\n- E2E: crear recinto → dos distribuciones → cambiar vigente.\n- Regresión sobre los tests actuales de Rayos X, lastres y rutas sanitarias.\n\n## Riesgos y supuestos\n\n- **Riesgo:** la separación toca el modelo de datos central (`src/types/index.ts`, ~1.660 líneas). Hacer la migración en pasos pequeños.\n- **Supuesto:** los elementos `permanent` actuales son el contenido del recinto. Confirmar con dirección de producto.\n- **Decisión pendiente** (`ADR-024-003`): motor geométrico y sistema de referencia para datos territoriales oficiales (`ADR-024-008`). La Plaza del Cristo como escenario de referencia no implica disponer de planos oficiales (`PLAN-002`).\n",
       "status": "open",
-      "version": 4,
+      "version": 5,
       "created_by": "Importación original",
       "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T10:50:09+00:00",
+      "updated_at": "2026-11-25T10:50:14+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
       "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "sin cambios",
+          "created_at": "2026-11-25T10:50:14+00:00"
+        },
         {
           "actor": "YELODESA",
           "action": "tarea-editada",
