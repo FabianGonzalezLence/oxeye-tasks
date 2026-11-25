@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:55:22+00:00",
+  "updated_at": "2026-11-25T10:55:46+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -979,24 +979,30 @@
       "depends": "OX-08, OX-13, OX-16, OX-21",
       "chapter": "21 / 20",
       "phase": "04 · Preparar el piloto",
-      "priority": "P0",
+      "priority": "P1",
       "owner": "Equipo",
-      "frustration": null,
-      "author_effort": null,
+      "frustration": 7,
+      "author_effort": 8,
       "dev_effort": null,
       "dev_response": "",
       "custom_txt": "# OX-22 · Prueba integral Mercado del Cristo\n\n| Campo | Valor |\n|---|---|\n| Fase | 04 · Preparar el piloto |\n| Tipo | Feature (prueba integral y datos de ensayo) |\n| Punto de la reunión 24/11 | 22 · Probar un evento de principio a fin |\n| Nivel propuesto para el piloto | Núcleo obligatorio ([ESP] §20.10, puntos 16 y 17) |\n| Depende de | Todas las tareas incluidas en el alcance del piloto (ver OX-23) |\n| Bloquea | Demostración del piloto |\n| Hito de referencia | HITO-10 · Integración del piloto ([ESP] §20.58) |\n| Rama sugerida | `feat/ox-22-escenario-demo-cristo` |\n\n## Objetivo\n\nUsar un **mercado ficticio** para comprobar que plano, inventario, calendario, costes y operaciones funcionan juntos de principio a fin, y ver los fallos antes de depender de la herramienta en un evento real.\n\n## Contexto relevante\n\n**[Hecho]**\n- Hoy los tests E2E (12) fallan en el flujo inicial y la CI no los ejecuta (auditoría 25/11). Sin arreglar eso (OX-01), esta prueba no puede automatizarse.\n- Ya existe un «ejemplo pequeño» (`SmallExampleDialog.tsx`, `small-example.ts`) que puede servir de punto de partida para datos de ensayo.\n\n**[ESP]** (capítulo 21)\n- Conjunto de datos `DEMO-CRISTO-001` «Mercado temporal de referencia», clasificación *ficticio*, modo *demostración*, zona horaria `Atlantic/Canary`.\n- Recinto sintético de **60 × 40 m** (no es la Plaza del Cristo real), 3 carpas 6×6, 1 escenario 8×6, 12 mesas de pícnic 1×3, 2 puestos gastronómicos, 2 aseos, 1 punto de información, 3 extintores, vallas; 3 camiones; personal ficticio; PROV-A/B/C con ofertas de 180/210/195 €; escenarios SIM-A/B/C.\n- Prueba integral `VAL-E2E-CRISTO-001` en **14 etapas y 87 pasos** ([ESP] §21.84): creación, recinto, instalaciones, inventario, contratación, economía, calendario, logística, personal, documentación, simulación, operación, evaluación y persistencia.\n- Aislamiento ([ESP] §21.9): sin contratos, pagos, comunicaciones externas, documentos restringidos ni incidencias reales. Debe comprobarse en servidor; no basta con mostrar «Demo».\n- `PLAN-002`: usar la Plaza del Cristo como referencia no implica planos oficiales ni autorización municipal. `VAL-006`: una grabación se presenta como grabación, no como directo.\n\n## Requisitos funcionales\n\n1. **Fixture versionado** `DEMO-CRISTO-001` con todos los datos de [ESP] §21.10 a §21.27, posiciones fijas en coordenadas locales.\n2. Operación de **restauración** del escenario a su estado inicial, que solo toca datos de ensayo.\n3. Indicador permanente de entorno de demostración.\n4. Automatizar la prueba `VAL-E2E-CRISTO-001` con las etapas que entren en el alcance del piloto (OX-23); las etapas fuera de alcance se marcan como *aplazadas* con motivo, no como superadas.\n5. Informe de ejecución con versión del software, versión de datos, semilla, resultados y errores ([ESP] §21.7).\n6. Guion de demostración de 10 operaciones para presentaciones ([ESP] §21.111), con plan alternativo si algo falla.\n\n## Requisitos no funcionales / restricciones\n\n- La prueba debe repetirse desde el mismo estado inicial con el mismo resultado (`VAL-003`).\n- Usar instantes fijos, nunca la fecha del ordenador.\n- **No negociable:** la prueba incluye la verificación de rutas sanitarias A/B/C, `Carpa Amarilla`, privacidad del `Punto Violeta`, aviso estructural de lastres y conservación de afluencia.\n- Una prueba no ejecutada no figura como superada (`VAL-005`).\n\n## Criterios de aceptación\n\n- [ ] El fixture se restaura en un paso y la prueba integral se ejecuta de forma automatizada.\n- [ ] Se cumplen los criterios de éxito de [ESP] §21.85: persistencia, identidad de recursos, reservas coherentes, dependencias respetadas, presupuesto que refleja decisiones, trazabilidad, documentos relacionados, incidencias con estado, simulaciones separadas, comparaciones explicadas, permisos y recuperación.\n- [ ] El informe lista qué etapas pasan, cuáles fallan y cuáles se aplazan.\n- [ ] Ningún dato de ensayo aparece en proyectos reales.\n\n## Pruebas / verificación\n\n- Ejecución automatizada en CI (requiere E2E reparados en OX-01).\n- Ejecución manual guiada por una persona que no ha desarrollado el sistema.\n- Revisión de resultados con la dirección de producto antes de cualquier demostración externa.\n\n## Riesgos y supuestos\n\n- **Riesgo:** querer pasar las 87 etapas antes de la primera demostración. La reunión del 24/11 ya acordó que no hace falta terminar los 24 puntos para enseñar algo útil.\n- **Riesgo:** confundir demostración con piloto operativo ([ESP] §20.73).\n- **Supuesto:** el hito propuesto del miércoles 2/12 es de **observación** del montaje real; si la versión no es fiable, no se usa el prototipo como herramienta operativa (reunión 24/11).\n",
       "status": "open",
-      "version": 2,
+      "version": 3,
       "created_by": "Importación original",
       "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T10:42:50+00:00",
+      "updated_at": "2026-11-25T10:55:46+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
       "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "priority, frustration, author_effort",
+          "created_at": "2026-11-25T10:55:46+00:00"
+        },
         {
           "actor": "YELODESA",
           "action": "tarea-editada",
