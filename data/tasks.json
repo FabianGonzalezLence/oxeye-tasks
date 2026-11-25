@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:40:37+00:00",
+  "updated_at": "2026-11-25T10:40:49+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -499,18 +499,25 @@
       "author_effort": null,
       "dev_effort": null,
       "dev_response": "",
-      "custom_txt": "",
+      "custom_txt": "# OX-13 · Incidencias reales en un centro de operaciones\n\n| Campo | Valor |\n|---|---|\n| Fase | 02 · Preparar el evento |\n| Tipo | Feature |\n| Punto de la reunión 24/11 | 13 · Registrar incidencias reales |\n| Nivel propuesto para el piloto | Núcleo obligatorio ([ESP] §20.10, punto 12) |\n| Depende de | OX-03, OX-04, OX-06 |\n| Bloquea | OX-11 (reportar problema), OX-19, OX-22 (etapa 12) |\n| Hito de referencia | HITO-08 · Operaciones y documentación ([ESP] §20.56) |\n| Rama sugerida | `feat/ox-13-incidencias-reales` |\n\n## Objetivo\n\nAnotar qué ha ocurrido, dónde, quién se encarga y cómo va la solución, para no perder incidencias entre mensajes y llamadas. Es el **registro de hechos reales**, separado por completo de las incidencias simuladas.\n\n## Contexto relevante\n\n**[Hecho]**\n- OxEye ya tiene un Centro de Análisis de Incidencias (`incident-center.ts`, `IncidentAnalysisPanel.tsx`) con 8 categorías (`FUE`, `SAN`, `ACC`, `VIO`, `SEG`, `LOG`, `CON`, `INF`), 5 gravedades, reproductor `T+00:00` y exportación JSON/CSV/PDF. **Todo eso es de la simulación.**\n- La auditoría del 25/11 detectó un ciclo de imports `event-engine → incident-center → emergency-lab`: el módulo actual está acoplado al motor.\n\n**[ESP]** (capítulo 14)\n- `INV-009` y `OPS-002`: lo virtual nunca aparece en el Centro de Operaciones como real. `OPS-004`: asignar no es resolver. `OPS-003`: no tener incidencias no prueba que todo va bien. `OPS-007`: no afirmar «tiempo real» si son registros manuales. `OPS-008`: el modo demostración no envía mensajes reales.\n- `VAL-OPS-01` a `VAL-OPS-12` y `VAL-OPS-INCIDENT-001`: obstrucción declarada en un acceso logístico, con identidad, momento, ubicación, informante, estado, responsable y relaciones; cierre con condiciones; aparece en el Centro de Operaciones y en el registro diario.\n- El registro básico de incidencias debe funcionar sin correo externo ([ESP] §24.110).\n\n## Requisitos funcionales\n\n1. Entidad `IncidenciaReal` **distinta** de la incidencia simulada: identidad, momento, ubicación (punto o instalación), categoría, gravedad, informante, responsable, estado, relaciones (actividad, recurso, orden de trabajo) y registro de actuaciones.\n2. Estados mínimos: *abierta*, *asignada*, *en tratamiento*, *resuelta*, *verificada*, *cerrada*, *descartada*. El cierre exige verificación.\n3. **Registro rápido** desde escritorio o móvil (OX-11) con solo 3 campos obligatorios; el resto se completa después.\n4. Centro de Operaciones por evento: lista y mapa de incidencias abiertas, por gravedad y antigüedad.\n5. Impacto operativo: qué actividades u operaciones quedan afectadas (usa el calendario, OX-06).\n6. Registro diario: las incidencias del día se recuperan en el formulario diario sin volver a escribirlas.\n7. Reutilizar la **taxonomía** de 8 categorías existente para que simulación y realidad se puedan comparar en OX-19, sin compartir almacenamiento.\n\n## Requisitos no funcionales / restricciones\n\n- **No negociable — Punto Violeta:** las incidencias de categoría `VIO` o vinculadas al `violet_point` se guardan con `sensitive: true`, sin datos individuales identificables en vistas generales, mapas compartidos, exportaciones ni indicadores públicos. Solo roles autorizados ven el detalle.\n- OxEye no sustituye al 1-1-2 ni a los planes oficiales (PEMU La Laguna 2011, Plan de Autoprotección del Cristo 2021). La interfaz no presenta este módulo como canal de emergencias.\n- Indicación visible del modo (real / demostración).\n\n## Criterios de aceptación\n\n- [ ] `VAL-OPS-INCIDENT-001` pasa.\n- [ ] Una incidencia simulada nunca aparece en el Centro de Operaciones real (prueba de aislamiento `VAL-SIM-ISOLATION-001`).\n- [ ] Una incidencia no puede pasar a *cerrada* sin *verificada*.\n- [ ] Una incidencia `VIO` no muestra datos individuales en la vista general ni en la exportación general.\n- [ ] El formulario diario del día lista sus incidencias automáticamente.\n\n## Pruebas / verificación\n\n- Unitarias de la máquina de estados.\n- Test de privacidad del Punto Violeta sobre vistas y exportaciones.\n- E2E: registrar desde móvil → asignar → tratar → verificar → cerrar.\n\n## Riesgos y supuestos\n\n- **Riesgo:** reutilizar el código de `incident-center.ts` arrastra el acoplamiento con el motor. Recomendación: compartir solo tipos (taxonomía), no el módulo.\n- **Decisión pendiente:** quién puede ver incidencias de seguridad y cuánto tiempo se conservan (`INV-018`).\n",
       "status": "open",
-      "version": 1,
+      "version": 2,
       "created_by": "Importación original",
-      "updated_by": "Importación original",
+      "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T00:10:04+00:00",
+      "updated_at": "2026-11-25T10:40:49+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
-      "activity": []
+      "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "custom_txt",
+          "created_at": "2026-11-25T10:40:49+00:00"
+        }
+      ]
     },
     {
       "id": "OX-14",
