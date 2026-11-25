@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:37:50+00:00",
+  "updated_at": "2026-11-25T10:38:01+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -265,18 +265,25 @@
       "author_effort": null,
       "dev_effort": null,
       "dev_response": "",
-      "custom_txt": "",
+      "custom_txt": "# OX-07 · Presupuesto que escucha al plano\n\n| Campo | Valor |\n|---|---|\n| Fase | 01 · Conectar el núcleo |\n| Tipo | Feature |\n| Punto de la reunión 24/11 | 07 · Presupuesto conectado al evento |\n| Nivel propuesto para el piloto | Núcleo obligatorio ([ESP] §20.10, punto 10) |\n| Depende de | OX-04, OX-05, OX-06 |\n| Bloquea | OX-08, OX-09, OX-10, OX-18, OX-19, OX-22 |\n| Hito de referencia | HITO-06 · Motor económico ([ESP] §20.54) |\n| Rama sugerida | `feat/ox-07-presupuesto-conectado` |\n\n## Objetivo\n\nQue añadir carpas, transporte o personal actualice automáticamente las **estimaciones** de coste correspondientes, con origen trazable de cada importe, para no tener que rehacer las cuentas a mano.\n\nEsta tarea cubre la dirección **plano → presupuesto**. La dirección inversa (presupuesto → plano) es OX-08.\n\n## Contexto relevante\n\n**[Hecho]**\n- Hoy existe la Ficha de producción (`ParametersDialog.tsx`) con 17+ parámetros operativos y cálculo de coste salarial de turnos, y la gestión de empresas, cuadrillas, camiones y carretillas (`OrganizationsDialog.tsx`, `companies.ts`).\n- No hay un presupuesto por partidas conectado a las instalaciones del plano.\n\n**[ESP]** (capítulo 12)\n- Flujo Mapa → Economía ([ESP] §24.68): identificar modelo, consultar necesidades y tarifas, calcular, actualizar la estimación, señalar importes desconocidos y conservar el origen. **Nunca crea facturas ni pagos.**\n- `INV-007`: una estimación no se convierte sola en compromiso, factura o pago. `INV-013`: desconocido no es cero.\n- `ECO-005`: indicar si los importes llevan impuestos, no los llevan o no se sabe. `ECO-007`: los gastos compartidos no se suman varias veces. `ECO-010`: no ejecutar código arbitrario en fórmulas de usuario. `ECO-011`: las versiones aprobadas no se sobrescriben.\n- Prueba `VAL-ECO-BIDIRECTIONAL-001`, acción A: con 2 carpas y una tarifa, añadir una tercera actualiza la necesidad, recalcula el coste y registra el cambio.\n\n## Requisitos funcionales\n\n1. Entidades: `PlanEconómico` (por evento y versión), `Partida` (concepto, cantidad, unidad, tarifa, tratamiento fiscal, estado) y `Tarifa` (por modelo de recurso, servicio o perfil de personal).\n2. Estados de importe diferenciados: *estimado*, *ofertado*, *comprometido*, *facturado*, *pagado*. Esta tarea solo genera *estimado*.\n3. Reglas de cálculo declarativas por tipo de partida (por unidad, por día, por hora, por trayecto, fijo), sin evaluar código introducido por el usuario.\n4. Cada partida enlaza con su origen (instalación, necesidad, actividad, operación logística) y muestra «por qué cuesta esto».\n5. Los importes sin tarifa se muestran como **desconocidos** y se cuentan aparte en los totales.\n6. Contingencia e impuestos configurables, explícitos por partida.\n7. Versiones del plan económico: borrador y aprobada; una aprobada solo cambia creando otra versión.\n\n## Requisitos no funcionales / restricciones\n\n- El recálculo no debe bloquear la edición del plano (500 elementos).\n- Los elementos de emergencia, accesibilidad (`Carpa Amarilla`) y `Punto Violeta` aparecen como partidas **protegidas**: no se pueden reducir desde la vista económica sin el flujo de OX-08.\n- Un estado interno «presupuesto aprobado» no es aprobación administrativa de gasto (`ECO-002`).\n\n## Criterios de aceptación\n\n- [ ] `VAL-ECO-BIDIRECTIONAL-001` acción A pasa.\n- [ ] Añadir un camión al plan logístico añade su partida de transporte con la tarifa aplicada y la fuente registrada.\n- [ ] Una partida sin tarifa aparece como «desconocido» y el total indica cuántos importes faltan.\n- [ ] Cada importe indica si incluye impuestos.\n- [ ] Un plan aprobado no cambia al modificar el plano: se genera un aviso y una propuesta de nueva versión.\n\n## Pruebas / verificación\n\n- Unitarias de cada regla de cálculo, redondeo y tratamiento fiscal.\n- Test que asegura que ninguna operación crea estados *comprometido*, *facturado* o *pagado*.\n- Integración plano → necesidad → partida.\n\n## Riesgos y supuestos\n\n- **Riesgo:** confundir estimación con presupuesto oficial. La interfaz debe rotularlo siempre como estimación.\n- **Supuesto:** las tarifas del piloto serán de ensayo (como las del escenario `DEMO-CRISTO-001`) hasta disponer de datos reales.\n- **Decisión pendiente:** tratamiento fiscal por defecto en Canarias (IGIC) y quién lo valida.\n",
       "status": "open",
-      "version": 1,
+      "version": 2,
       "created_by": "Importación original",
-      "updated_by": "Importación original",
+      "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T00:10:04+00:00",
+      "updated_at": "2026-11-25T10:38:01+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
-      "activity": []
+      "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "custom_txt",
+          "created_at": "2026-11-25T10:38:01+00:00"
+        }
+      ]
     },
     {
       "id": "OX-08",
