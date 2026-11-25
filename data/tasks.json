@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:40:02+00:00",
+  "updated_at": "2026-11-25T10:40:14+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -427,18 +427,25 @@
       "author_effort": null,
       "dev_effort": null,
       "dev_response": "",
-      "custom_txt": "",
+      "custom_txt": "# OX-11 · Órdenes de trabajo sencillas para móvil\n\n| Campo | Valor |\n|---|---|\n| Fase | 02 · Preparar el evento |\n| Tipo | Feature |\n| Punto de la reunión 24/11 | 11 · Instrucciones para cada trabajador + aclaración 02 «Formularios sencillos por enlace» |\n| Nivel propuesto para el piloto | Ampliación prioritaria (órdenes de trabajo, formularios diarios, [ESP] §20.11) |\n| Depende de | OX-03, OX-06, OX-10, OX-13 (para «Reportar problema»); OX-14 opcional (documentos en la orden) |\n| Bloquea | OX-15, OX-20, OX-22 (etapa 9) |\n| Rama sugerida | `feat/ox-11-ordenes-trabajo` |\n\n## Objetivo\n\nQue cada equipo consulte desde el móvil **dónde tiene que ir, cuándo y qué hacer**, sin instalar nada, y que pueda rellenar un formulario sencillo por enlace. Menos llamadas, dudas e instrucciones repetidas.\n\n## Contexto relevante\n\n**[Hecho]**\n- Hoy OxEye es una aplicación de escritorio (lienzo SVG, paneles redimensionables). No hay vista móvil ni portal del trabajador.\n- Existen cuadrillas y parámetros de turnos (`ParametersDialog.tsx`), subtareas logísticas por tipología (`shift.ts`) y coordenadas con celda alfanumérica (p. ej. `CELDA R14`), útiles para indicar ubicaciones.\n- Reunión 24/11: «enviaremos un enlace a cada trabajador. Podrá rellenar el formulario desde su móvil y descargar una copia. Cuando esté implantado, sus respuestas quedarán guardadas automáticamente». **Función prevista; todavía no está activa** y depende del servidor compartido (OX-02).\n\n**[ESP]** (capítulo 13)\n- Una orden de trabajo tiene responsable, ubicación, horario, tareas, material e instrucciones; se puede crear desde el mapa o desde el calendario.\n- `PER-003`: una instrucción al jefe de equipo no cuenta como recibida por cada integrante si se exige confirmación personal. `PER-005`: duplicar personas no divide a la mitad la duración. `PER-007`: los registros de inicio y fin no son un control legal de jornada. `PER-008`: asignar a alguien a una zona no prueba que esté allí.\n- Experiencia sin instalación y acceso temporal limitado para proveedores.\n\n## Requisitos funcionales\n\n1. Entidad `OrdenDeTrabajo`: título, equipo o persona, responsable principal, ubicación (mini-mapa + celda), franja horaria, lista de pasos, material, documentos (OX-14) y estado (*borrador*, *publicada*, *en curso*, *terminada*, *con incidencia*).\n2. Crear órdenes desde una actividad del calendario o desde una instalación del mapa.\n3. **Vista móvil** de solo lectura por enlace con token de acceso temporal: «Mi jornada» con las órdenes en orden horario, mapa simplificado y pasos.\n4. Acciones mínimas desde el móvil: *Empezar*, *Terminar*, *Reportar problema* (crea incidencia en OX-13) y rellenar el **formulario diario** asociado.\n5. Descargar una copia del formulario rellenado.\n6. Detección de solapamientos: una persona en dos órdenes incompatibles ([ESP] §21.22).\n\n## Requisitos no funcionales / restricciones\n\n- Funciona en móvil sin instalar aplicación, con botones táctiles amplios y legible al sol.\n- Los enlaces caducan y solo dan acceso a las órdenes de esa persona o equipo. Ocultar no es seguridad (`UX-009`): el servidor valida el token.\n- Datos personales mínimos; sin seguimiento de ubicación del trabajador.\n- Si no hay servidor (OX-02), la vista se entrega como documento estático descargable o imprimible y se indica que no recoge respuestas.\n\n## Criterios de aceptación\n\n- [ ] Un jefe de montaje abre el enlace en un móvil y ve sus órdenes del día con ubicación en el mapa.\n- [ ] Marcar *Terminar* actualiza el estado en la vista del coordinador.\n- [ ] *Reportar problema* crea una incidencia con ubicación y orden relacionada.\n- [ ] Asignar a la misma persona dos órdenes solapadas muestra un conflicto y no confirma ambas.\n- [ ] Un enlace caducado no muestra datos.\n\n## Pruebas / verificación\n\n- E2E con viewport móvil (Playwright).\n- Unitarias de solapamiento y de validez del token.\n- Prueba de accesibilidad básica (tamaños táctiles, contraste) en la vista móvil.\n- Observación en el montaje real del 2/12, si se confirma, para validar qué instrucciones se repiten.\n\n## Riesgos y supuestos\n\n- **Riesgo:** depende del servidor y del presupuesto (reunión 24/11). Planificar el modo estático como plan B.\n- **Supuesto:** los trabajadores tienen móvil con navegador y datos.\n- **Decisión pendiente:** si la confirmación de lectura se pide por persona o por equipo (enlaza con OX-15).\n",
       "status": "open",
-      "version": 1,
+      "version": 2,
       "created_by": "Importación original",
-      "updated_by": "Importación original",
+      "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T00:10:04+00:00",
+      "updated_at": "2026-11-25T10:40:14+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
-      "activity": []
+      "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "custom_txt",
+          "created_at": "2026-11-25T10:40:14+00:00"
+        }
+      ]
     },
     {
       "id": "OX-12",
