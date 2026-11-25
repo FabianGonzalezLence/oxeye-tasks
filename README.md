@@ -36,14 +36,20 @@ Mini aplicación web para gestionar y ticar tareas compartidas entre equipo **10
    `https://TU_USUARIO.github.io/oxeye-tareas/`
 
 ### 3. Crear el Token de acceso (tú y tu colega, una sola vez)
-Cada persona entra con su propio **Fine-Grained Personal Access Token** de GitHub:
-1. Abre [github.com/settings/personal-access-tokens/new](https://github.com/settings/personal-access-tokens/new).
-2. Pon un nombre (ej. `OxEye Tareas`) y la caducidad que prefieras.
-3. En **Repository access**, elige **Only select repositories** y selecciona vuestro repositorio (`oxeye-tareas`).
-4. En **Permissions → Repository permissions**, marca:
-   - **Contents:** `Read and write`
-5. Pulsa **Generate token** y cópialo.
-6. Abre la URL de vuestra GitHub Page, pega el token (el repositorio se detecta solo), elige tu función (`Desarrollo`, `Dirección` o `Revisión`) y entra. El navegador recordará tu sesión.
+> **Importante sobre Fine-Grained vs. Classic Token:** En GitHub, los *Fine-Grained Tokens* **solo ven repositorios propios** (o de una Organización), no repositorios de otra cuenta personal donde eres colaborador. Por eso:
+
+- **Para el dueño del repositorio (tú):** puedes usar un **Fine-Grained Token** en [github.com/settings/personal-access-tokens/new](https://github.com/settings/personal-access-tokens/new):
+  1. En **Repository access**, cambia a **Only select repositories** y selecciona `oxeye-tareas`.
+  2. En **Permissions → Repository permissions**, pon **Contents: `Read and write`**.
+  3. Pulsa **Generate token** y cópialo.
+- **Para tu colega (colaborador en un repo personal):** debe crear un **Token Clásico** en [github.com/settings/tokens/new](https://github.com/settings/tokens/new):
+  1. Asegúrate primero de que haya **aceptado la invitación** como colaborador del repositorio.
+  2. Pon un nombre (ej. `OxEye Tareas`), elige la caducidad y marca la casilla **`public_repo`** (si el repo es público) o **`repo`** (si el repo es privado).
+  3. Pulsa **Generate token** y cópialo.
+
+*(Si queréis usar Fine-Grained Tokens ambos, basta con mover el repo a una Organización gratuita de GitHub donde estéis los dos).*
+
+Por último, abrid la URL de vuestra GitHub Page, pegad el token (el repositorio se detecta solo), elegid vuestra función (`Desarrollo`, `Dirección` o `Revisión`) y entrad. El navegador recordará la sesión.
 
 ---
 
