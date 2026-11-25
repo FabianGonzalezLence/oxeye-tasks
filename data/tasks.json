@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:38:13+00:00",
+  "updated_at": "2026-11-25T10:38:20+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -303,16 +303,22 @@
       "dev_response": "",
       "custom_txt": "# OX-08 · Cambios de ida y vuelta con confirmación\n\n| Campo | Valor |\n|---|---|\n| Fase | 01 · Conectar el núcleo |\n| Tipo | Feature |\n| Punto de la reunión 24/11 | 08 · Cambios con consecuencias claras |\n| Nivel propuesto para el piloto | Núcleo obligatorio ([ESP] §20.10, puntos 9, 10 y 11) |\n| Depende de | OX-05, OX-06, OX-07 |\n| Bloquea | OX-22 |\n| Rama sugerida | `feat/ox-08-reconciliacion` |\n\n## Objetivo\n\nCuando se reduce algo desde el presupuesto (o desde el inventario o el calendario), el programa muestra **qué habría que cambiar en el plano** y en el resto del evento, y pide confirmación antes de aplicar nada. Se evitan decisiones que generan otros problemas sin avisar.\n\n## Contexto relevante\n\n**[Hecho]**\n- OxEye ya tiene un precedente de este patrón: `DemandChangeDialog.tsx` protege los cambios de demanda en caliente y `EventDemandConfig` se sincroniza en ambos sentidos sin duplicar datos. También existe deshacer/rehacer (`Ctrl+Z` / `Ctrl+Y`) en el editor.\n\n**[ESP]**\n- Flujo Economía → Mapa ([ESP] §24.69): identificar relación, consultar instalaciones, reservas y compromisos, evaluar alternativas, mostrar diferencias, pedir decisión y aplicar solo una modificación compatible.\n- `MST-007`: las modificaciones bidireccionales pasan por **reconciliación**, no por sincronización ciega de números.\n- `VAL-004` y `ECO-009`: cambiar una cifra del presupuesto no elimina objetos físicos, no cambia las unidades disponibles ni cancela reservas confirmadas.\n- Pruebas: `VAL-ECO-BIDIRECTIONAL-001` acción B, `VAL-ECO-COMMITMENT-001` (compromiso protegido) y la prueba de cambios inversos de [ESP] §21.80 (sin bucles, duplicados ni cambios silenciosos).\n\n## Requisitos funcionales\n\n1. Un **servicio de reconciliación** común: recibe un cambio propuesto en un dominio (economía, inventario, calendario, plano) y devuelve un **informe de impacto** con las entidades afectadas en los demás dominios.\n2. Diálogo de impacto: qué cambia, qué queda en conflicto, qué compromisos confirmados se tocan, alternativas posibles. Botones: *Aplicar*, *Aplicar parcialmente*, *Cancelar*.\n3. Al reducir la cantidad de carpas desde economía: proponer qué carpas retirar o dejar como «sin cubrir», sin elegir por el usuario.\n4. Cambios aplicados en una única operación atómica, con registro de quién decidió y por qué (`INV-012`).\n5. Posibilidad de deshacer la reconciliación completa como una sola acción.\n\n## Requisitos no funcionales / restricciones\n\n- **No negociable:** ninguna reconciliación puede retirar o reducir sin aviso bloqueante elementos de evacuación y accesos de emergencia, rutas sanitarias A/B/C, `Carpa Amarilla`, `Punto Violeta` o lastres necesarios para cumplir el umbral orientativo de `500 kg/m²`. Estos casos se marcan como «no reducible desde aquí».\n- **No negociable:** si el cambio afecta a la demanda, se usa `EventDemandConfig` como única fuente; no se crean copias de afluencia.\n- Sin bucles de actualización entre módulos (un cambio genera exactamente una reconciliación).\n- Los componentes de interfaz no reimplementan las reglas de negocio (`UX-008`).\n\n## Criterios de aceptación\n\n- [ ] `VAL-ECO-BIDIRECTIONAL-001` acción B: reducir desde economía la cantidad de carpas ofrece opciones de reconciliación y no elimina instalaciones sin confirmación.\n- [ ] `VAL-ECO-COMMITMENT-001`: reducir desde el mapa una prestación con compromiso confirmado muestra la consecuencia y no borra la obligación económica.\n- [ ] Intentar reducir la partida de la `Carpa Amarilla` o de una ambulancia queda bloqueado con explicación.\n- [ ] Una reconciliación aplicada se deshace entera en un paso.\n- [ ] Ninguna prueba produce duplicados ni actualizaciones en bucle.\n\n## Pruebas / verificación\n\n- Unitarias del servicio de reconciliación con casos de cada dominio.\n- Test de propiedades: aplicar y deshacer deja el estado igual.\n- E2E de los dos sentidos del cambio (plano → presupuesto → plano).\n\n## Riesgos y supuestos\n\n- **Riesgo:** el diálogo de impacto puede ser abrumador. Agrupar por dominio y mostrar primero lo bloqueante.\n- **Supuesto:** los contratos de OX-05, OX-06 y OX-07 están estables antes de empezar ([ESP] §24.109).\n",
       "status": "open",
-      "version": 2,
+      "version": 3,
       "created_by": "Importación original",
       "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T10:38:13+00:00",
+      "updated_at": "2026-11-25T10:38:20+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
       "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "sin cambios",
+          "created_at": "2026-11-25T10:38:20+00:00"
+        },
         {
           "actor": "YELODESA",
           "action": "tarea-editada",
