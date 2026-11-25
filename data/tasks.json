@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:53:19+00:00",
+  "updated_at": "2026-11-25T10:53:36+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -673,24 +673,30 @@
       "depends": "OX-11, OX-14",
       "chapter": "17",
       "phase": "02 · Preparar el evento",
-      "priority": "P1",
+      "priority": "P2",
       "owner": "Fabián",
-      "frustration": null,
-      "author_effort": null,
+      "frustration": 4,
+      "author_effort": 7,
       "dev_effort": null,
       "dev_response": "",
       "custom_txt": "# OX-15 · Enviar instrucciones sin perder su estado\n\n| Campo | Valor |\n|---|---|\n| Fase | 02 · Preparar el evento |\n| Tipo | Feature |\n| Punto de la reunión 24/11 | 15 · Avisos y confirmaciones |\n| Nivel propuesto para el piloto | Ampliación prioritaria (comunicaciones automatizadas, [ESP] §20.11) |\n| Depende de | OX-02, OX-03, OX-11 |\n| Bloquea | OX-22 (etapa 9, publicar orden) |\n| Rama sugerida | `feat/ox-15-comunicaciones-estado` |\n\n## Objetivo\n\nQue cada instrucción enviada tenga un estado claro (**preparada, enviada, recibida, confirmada**) para saber quién está informado y quién aún no ha respondido, y que un cambio posterior pida una nueva confirmación.\n\n## Contexto relevante\n\n**[Hecho]**\n- Hoy los contactos tienen enlaces `mailto:` y WhatsApp (`ContactsDialog.tsx`). Abren la aplicación del usuario pero **OxEye no sabe** si el mensaje se envió, llegó o se leyó.\n\n**[ESP]** (capítulos 13 y 17)\n- `INV-010`: preparado, enviado, entregado, leído y confirmado son estados distintos. `INTG-005`: que el servidor de correo acepte un mensaje no prueba que se haya leído.\n- `PER-006`: confirmar la versión 1 no implica aceptar la versión 2. `INTG-012`: no enviar instrucciones obsoletas porque estaban programadas antes del cambio.\n- `INV-019`/`INTG-003`: los reintentos no producen envíos duplicados.\n- `VAL-PER-INSTRUCTION-001` (orden V1 publicada y confirmada, cambio de hora, V2 publicada: se conservan V1, su confirmación, V2 y la nueva confirmación pendiente) y `VAL-INTG-FAILURE-001` (con el servicio de correo caído, el mensaje queda pendiente o fallido y nunca se muestra como entregado).\n- [ESP] §24.114: se puede construir un servicio de **borradores** antes de habilitar envíos reales.\n\n## Requisitos funcionales\n\n1. Entidad `Comunicación`: destinatarios, contenido, versión de la orden o instrucción a la que se refiere, canal y estado.\n2. Estados: *borrador*, *preparada*, *enviada*, *entregada* (si el canal lo informa), *leída* (si el canal lo informa), *confirmada* (acción explícita del destinatario), *fallida*, *anulada*.\n3. Panel por orden o evento: quién ha confirmado, quién no, desde cuándo.\n4. Al publicar una nueva versión de una orden: marcar la anterior como sustituida, anular envíos programados obsoletos y pedir nueva confirmación a los afectados.\n5. Confirmación por enlace desde el móvil (vista de OX-11).\n6. Reintento seguro con identificador de operación (sin duplicados).\n7. **Fase 1 [Propuesta]:** solo borradores y confirmación por enlace. **Fase 2:** conector de correo o mensajería real, cuando OX-02 y OX-24 lo decidan.\n\n## Requisitos no funcionales / restricciones\n\n- Ningún evento de la simulación puede disparar comunicaciones reales (`SEG-007`, `INTG-013`).\n- En modo demostración no se envía nada real (`OPS-008`); se usan buzones de prueba.\n- Los secretos del proveedor de correo no van en el navegador (`INTG-009`).\n- Fechas y horas con la zona del evento (`INTG-010`).\n\n## Criterios de aceptación\n\n- [ ] `VAL-PER-INSTRUCTION-001` pasa.\n- [ ] `VAL-INTG-FAILURE-001` pasa con un servicio de correo simulado.\n- [ ] Reenviar dos veces la misma operación no genera dos mensajes.\n- [ ] Una confirmación de V1 no aparece como confirmación de V2.\n\n## Pruebas / verificación\n\n- Unitarias de la máquina de estados y de idempotencia.\n- Integración con servicio de correo simulado (caída y recuperación).\n- E2E: publicar orden → confirmar desde móvil → cambiar hora → nueva confirmación pendiente.\n\n## Riesgos y supuestos\n\n- **Riesgo:** WhatsApp y correo no siempre informan de entrega o lectura. La interfaz solo muestra los estados que el canal confirma.\n- **Decisión pendiente** (`ADR-024-006`): proveedor de correo/mensajería y su coste.\n- **Supuesto:** sin servidor no hay estados de entrega; solo borradores.\n",
       "status": "open",
-      "version": 2,
+      "version": 3,
       "created_by": "Importación original",
       "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T10:41:16+00:00",
+      "updated_at": "2026-11-25T10:53:36+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
       "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "priority, frustration, author_effort",
+          "created_at": "2026-11-25T10:53:36+00:00"
+        },
         {
           "actor": "YELODESA",
           "action": "tarea-editada",
