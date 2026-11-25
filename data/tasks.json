@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T14:28:32+00:00",
+  "updated_at": "2026-11-25T14:28:37+00:00",
   "updated_by": "Fabián González Lence",
   "tasks": [
     {
@@ -78,17 +78,23 @@
       "author_effort": 2,
       "dev_effort": null,
       "dev_response": "",
-      "status": "open",
-      "version": 5,
+      "status": "review",
+      "version": 6,
       "created_by": "Importación original",
-      "updated_by": "YELODESA",
+      "updated_by": "Fabián González Lence",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T10:49:21+00:00",
+      "updated_at": "2026-11-25T14:28:37+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
       "activity": [
+        {
+          "actor": "Fabián González Lence",
+          "action": "enviado-a-revision",
+          "detail": "De open a review",
+          "created_at": "2026-11-25T14:28:37+00:00"
+        },
         {
           "actor": "YELODESA",
           "action": "tarea-editada",
