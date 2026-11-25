@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:48:45+00:00",
+  "updated_at": "2026-11-25T10:49:21+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -75,16 +75,22 @@
       "dev_response": "",
       "custom_txt": "# OX-02 · Decidir cómo compartir los datos\n\n| Campo | Valor |\n|---|---|\n| Fase | 00 · Entender la base |\n| Tipo | Feature (decisión de arquitectura, sin código de producto) |\n| Punto de la reunión 24/11 | 02 · Una sola información para todo + aclaración 03 «Servidor compartido» |\n| Nivel propuesto para el piloto | Núcleo obligatorio |\n| Depende de | OX-01 (en paralelo con OX-24) |\n| Bloquea | OX-03, OX-05, OX-06, OX-07, OX-11, OX-15, OX-21 |\n| Decisiones de referencia | `ADR-024-001` arquitectura física, `ADR-024-002` base de datos, `ADR-024-005` modo desconectado ([ESP] §24.144, §24.145, §24.148) |\n\n## Objetivo\n\nDecidir y documentar **dónde vive cada dato y quién es su dueño**, para que el plano, los materiales, las fechas y los costes consulten la misma información en lugar de copias que se desincronizan. El resultado es un conjunto de ADR (registros de decisión) aprobados, no una implementación.\n\n## Contexto relevante\n\n**[Hecho]**\n- Hoy OxEye funciona solo en el navegador: estado en Zustand (`src/store/useProjectStore.ts`), persistencia local con Dexie/IndexedDB y `localStorage`, y exportación/importación de un JSON (`Ojo_de_Buey_Proyecto.json`). No hay servidor.\n- `drizzle-orm` está instalado pero no se usa (auditoría 25/11).\n- Ya existe un caso de «fuente única» resuelto: `EventDemandConfig` (`src/engine/planning/event-demand.ts`) sincroniza la Calculadora de servicios y el panel de simulación. Es el precedente que hay que generalizar.\n- Reunión 24/11: «Para recibir respuestas y compartir datos entre equipos necesitamos un servidor. […] su puesta en marcha depende de disponer del presupuesto necesario».\n\n**[ESP]**\n- `INV-003`: cada dato autoritativo depende de un dominio identificado; los consumidores no pueden sustituirlo con copias locales.\n- `TEC-004`: el estado del navegador no puede ser la autoridad definitiva para compromisos compartidos. `TEC-007`: el almacenamiento local no puede ser la única copia de datos compartidos.\n- Recomendación inicial de la especificación: backend modular con procesos especializados donde haga falta, y evaluar PostgreSQL con capacidades espaciales. Ambas **pendientes**.\n- Modo desconectado recomendado: consulta y borradores sin red, sin confirmaciones compartidas que requieran validación central.\n\n## Requisitos funcionales\n\n1. **Mapa de autoridad de datos:** una tabla con cada entidad principal (organización, usuario, proyecto, evento, recinto, distribución, instalación, modelo de recurso, unidad física, necesidad, reserva, actividad, tarea, partida económica, proveedor, oferta, incidencia, documento, comunicación, simulación) y, para cada una, el dominio dueño, quién puede leerla y quién puede modificarla.\n2. **Opciones de arquitectura** comparadas con coste, esfuerzo y riesgo:\n   - A. Seguir solo en navegador con exportación de archivos (sin servidor).\n   - B. Backend modular único con base de datos relacional.\n   - C. Servicio gestionado (backend como servicio).\n   Cada opción debe indicar qué tareas OX quedan bloqueadas o limitadas si se elige.\n3. **Estrategia de transición:** cómo convive el modo local actual con el futuro servidor (importación del JSON existente, migraciones, identificadores estables).\n4. **Política sin conexión:** qué operaciones se permiten sin red y cuáles exigen servidor (por ejemplo, confirmar una reserva).\n5. **Plan B sin presupuesto de servidor:** qué parte del piloto puede demostrarse en modo local sin engañar sobre sus límites.\n\n## Requisitos no funcionales / restricciones\n\n- Los datos del `Punto Violeta` (`sensitive: true`) deben quedar fuera de cualquier vista pública y su almacenamiento compartido requiere decisión expresa de privacidad (`INV-018`).\n- Los secretos de servicios externos nunca van en código del navegador ni en exportaciones (`INTG-009`).\n- Fechas y horas con zona horaria explícita (`Atlantic/Canary`) para no depender del ordenador del usuario (`TEC-006`).\n- La decisión no debe romper la ejecución determinista del motor de simulación, que debe seguir funcionando con datos locales.\n\n## Criterios de aceptación\n\n- [ ] Existen los ADR `ADR-024-001`, `ADR-024-002` y `ADR-024-005` con estado *Aprobado* o *Rechazado* y motivo.\n- [ ] La tabla de autoridad cubre todas las entidades citadas y no tiene ninguna con dos dueños.\n- [ ] Hay una estimación de coste mensual del servidor por opción, marcada como estimación.\n- [ ] El plan B sin servidor está escrito y validado por dirección de producto.\n\n## Pruebas / verificación\n\n- Revisión del documento por arquitectura y dirección de producto.\n- Comprobación cruzada: cada tarea OX-03 a OX-22 encuentra en la tabla el dueño de los datos que usa.\n\n## Riesgos y supuestos\n\n- **Riesgo:** decidir el servidor antes de tener presupuesto. Mitigación: aprobar la arquitectura lógica ahora y dejar la infraestructura concreta condicionada.\n- **Riesgo:** sobrediseñar. La especificación pide fijar los límites que evitan contradicciones, no todos los detalles ([ESP] §20.23).\n- **Decisión pendiente:** proveedor y coste del servidor (depende del presupuesto, según la reunión del 24/11).\n",
       "status": "open",
-      "version": 4,
+      "version": 5,
       "created_by": "Importación original",
       "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T10:48:45+00:00",
+      "updated_at": "2026-11-25T10:49:21+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
       "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "sin cambios",
+          "created_at": "2026-11-25T10:49:21+00:00"
+        },
         {
           "actor": "YELODESA",
           "action": "tarea-editada",
