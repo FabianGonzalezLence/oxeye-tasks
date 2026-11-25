@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:52:33+00:00",
+  "updated_at": "2026-11-25T10:52:48+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -547,24 +547,30 @@
       "depends": "OX-04, OX-06, OX-07",
       "chapter": "07",
       "phase": "02 · Preparar el evento",
-      "priority": "P1",
+      "priority": "P2",
       "owner": "Equipo",
-      "frustration": null,
-      "author_effort": null,
+      "frustration": 3,
+      "author_effort": 6,
       "dev_effort": null,
       "dev_response": "",
       "custom_txt": "# OX-12 · Producción técnica: escenario, luz y sonido\n\n| Campo | Valor |\n|---|---|\n| Fase | 02 · Preparar el evento |\n| Tipo | Feature |\n| Punto de la reunión 24/11 | 12 · Controlar escenarios y equipos técnicos |\n| Nivel propuesto para el piloto | Ampliación prioritaria |\n| Depende de | OX-05, OX-06, OX-07, OX-14 (para documentos técnicos) |\n| Bloquea | OX-22 |\n| Rama sugerida | `feat/ox-12-produccion-tecnica` |\n\n## Objetivo\n\nReunir en un mismo sitio lo que necesita cada instalación técnica (escenario, iluminación, sonido): equipos, consumo eléctrico, montaje, pruebas y comprobaciones necesarias.\n\n## Contexto relevante\n\n**[Hecho]**\n- El catálogo ya incluye **escenario** y **punto eléctrico (`power`)**, y el monitor de experiencia mide la fricción por **sonido en dB** (`experience-monitor.ts`).\n- El programa por días (`ProgrammeDialog.tsx`) permite actividades con empresa o contacto asociado.\n- No hay fichas de producción técnica, ni rider, ni balance de potencia eléctrica.\n\n**[ESP]** (capítulo 07)\n- La producción se trata como unidad funcional con requisitos independientes: implantación del escenario, riesgos, plan de montaje y desmontaje, rider técnico, iluminación, sonido, energía eléctrica, pruebas de sonido, camerinos, accesos técnicos y coordinación de empresas concurrentes.\n- [ESP] §24.76: recibir un documento técnico no es verificarlo. `INV-014`: mover el escenario no hereda la verificación anterior.\n\n## Requisitos funcionales\n\n1. Entidad `Producción` asociada a una actividad del programa y a una o varias instalaciones del mapa (escenario, torre de control, zona técnica).\n2. Lista de **requisitos técnicos** por producción: equipos de luz y sonido (como necesidades de inventario, OX-05), potencia eléctrica, horarios de montaje, prueba de sonido y actuación.\n3. **Balance eléctrico** **[Propuesta]**: suma de potencias declaradas por punto eléctrico frente a la capacidad registrada; si falta un dato, se muestra como desconocido.\n4. Comparación rider ↔ inventario: qué pide la producción, qué hay, qué falta.\n5. Lista de comprobaciones previas a la actuación con estado y documento de evidencia (OX-14).\n6. Las actividades de montaje, prueba de sonido y actuación se crean en el calendario (OX-06) con dependencias.\n\n## Requisitos no funcionales / restricciones\n\n- OxEye **no certifica** instalaciones eléctricas ni estructurales: el balance es orientativo y así se rotula.\n- **No negociable:** escenario y equipos pesados sobre subsuelo activan la comprobación de Rayos X y lastres (`500 kg/m²`).\n- **No negociable:** el escenario y su zona técnica no pueden invadir las rutas de evacuación ni las rutas sanitarias A/B/C.\n- Los niveles de sonido que use la simulación se rotulan como hipótesis.\n\n## Criterios de aceptación\n\n- [ ] Se crea la producción «actuación musical» ligada al escenario del caso de prueba con 5 requisitos técnicos.\n- [ ] El balance eléctrico de un punto con un consumo sin dato muestra «desconocido», no cero.\n- [ ] Mover el escenario a otra posición marca como pendientes de revisión las comprobaciones hechas antes.\n- [ ] La comparación rider ↔ inventario muestra los equipos que faltan como necesidades externas.\n\n## Pruebas / verificación\n\n- Unitarias del balance eléctrico y de la comparación rider ↔ inventario.\n- Test de invalidación de comprobaciones tras mover una instalación (`VAL-CORE-INVALIDATION-001`).\n- Regresión de Rayos X y rutas sanitarias con escenario colocado.\n\n## Riesgos y supuestos\n\n- **Riesgo:** el alcance de producción artística es muy grande en la especificación. Limitar el piloto a escenario, luz, sonido y electricidad.\n- **Supuesto:** la importación automática de riders queda fuera del piloto.\n- **Decisión pendiente:** quién es el responsable técnico externo que valida cada comprobación.\n",
       "status": "open",
-      "version": 2,
+      "version": 3,
       "created_by": "Importación original",
       "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T10:40:37+00:00",
+      "updated_at": "2026-11-25T10:52:48+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
       "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "priority, frustration, author_effort",
+          "created_at": "2026-11-25T10:52:48+00:00"
+        },
         {
           "actor": "YELODESA",
           "action": "tarea-editada",
