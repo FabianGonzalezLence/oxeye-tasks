@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T00:10:04+00:00",
-  "updated_by": "Sistema",
+  "updated_at": "2026-11-25T09:59:31+00:00",
+  "updated_by": "YELODESA",
   "tasks": [
     {
       "id": "OX-01",
@@ -15,21 +15,28 @@
       "phase": "00 · Entender la base",
       "priority": "P0",
       "owner": "Fabián",
-      "frustration": null,
+      "frustration": 4,
       "author_effort": null,
       "dev_effort": null,
       "dev_response": "",
       "status": "open",
-      "version": 1,
+      "version": 2,
       "created_by": "Importación original",
-      "updated_by": "Importación original",
+      "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T00:10:04+00:00",
+      "updated_at": "2026-11-25T09:59:31+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
-      "activity": []
+      "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "frustration",
+          "created_at": "2026-11-25T09:59:31+00:00"
+        }
+      ]
     },
     {
       "id": "OX-02",
