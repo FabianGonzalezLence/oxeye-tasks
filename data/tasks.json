@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:53:36+00:00",
+  "updated_at": "2026-11-25T10:53:48+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -717,22 +717,28 @@
       "phase": "03 · Simular para decidir",
       "priority": "P1",
       "owner": "Algoritmos",
-      "frustration": null,
-      "author_effort": null,
+      "frustration": 6,
+      "author_effort": 4,
       "dev_effort": null,
       "dev_response": "",
       "custom_txt": "# OX-16 · Conservar y mejorar la simulación\n\n| Campo | Valor |\n|---|---|\n| Fase | 03 · Simular para decidir |\n| Tipo | Feature |\n| Punto de la reunión 24/11 | 16 · Mantener la simulación |\n| Nivel propuesto para el piloto | Investigación y experimentación con alcance explícito ([ESP] §20.12); la separación real/simulado es núcleo |\n| Depende de | OX-01, OX-04 |\n| Bloquea | OX-17, OX-18, OX-19, OX-22 (etapa 11) |\n| Hito de referencia | HITO-09 · Simulación controlada ([ESP] §20.57) |\n| Rama sugerida | `feat/ox-16-simulacion-versionada` |\n\n## Objetivo\n\nSeguir probando comportamientos del público y escenarios posibles **sin confundir pruebas virtuales con hechos reales**. Cada simulación debe ser reproducible, estar ligada a una versión concreta del plano y no poder modificar nada real.\n\n## Contexto relevante\n\n**[Hecho]**\n- El motor es el activo más maduro de OxEye: 63 módulos puros en `src/engine/` con multitudes (malla `0,75 × 0,75 m`, BFS con caché), 1.000 perfiles sintéticos calibrados al padrón de La Laguna, 13 rasgos de personalidad, necesidades fisiológicas, grupos sociales, clima, comedor, stewards, consultas cotidianas, falsas alarmas, incendios multifoco y vehículos.\n- Reproducibilidad: sistema híbrido de semillas (`random` / `fixed`).\n- **Restricción ya implementada:** conservación estricta de afluencia `Ocup(t+1) = Ocup(t) + Entradas − Salidas` y fuente única de demanda `EventDemandConfig`.\n- Deuda detectada (auditoría 25/11): ciclos `event-engine → incident-center → emergency-lab` y `contextual-incidents ↔ response-model`, fuga `engine → store`, 16 módulos del motor que generan SVG (mezcla de cálculo y dibujo).\n\n**[ESP]** (capítulo 10)\n- `INV-009` / `TEC-008`: una simulación no modifica recursos, compromisos, personal ni incidencias reales. `INV-016`: lo experimental no se presenta como capacidad verificada. `SEG-005`: la simulación no puede aumentar ni modificar el aforo autorizado. `SIM-003`: ningún módulo guarda su propia cantidad de demanda.\n- Cada ejecución conserva identificador, versión del plano y del evento, semilla, parámetros, versión del motor, resultados, advertencias y limitaciones ([ESP] §21.28, §21.35).\n- `VAL-SIM-01` a `VAL-SIM-14`, `VAL-SIM-REPEAT-001` y `VAL-SIM-ISOLATION-001`.\n\n## Requisitos funcionales\n\n1. **Instantánea**: al iniciar una simulación se congela una copia de la distribución, el calendario y la demanda usados. La simulación trabaja sobre la copia.\n2. **Registro de ejecución** con los campos de [ESP] §21.35 y la versión del motor.\n3. Resultados guardados y etiquetados siempre como «Resultado de modelo».\n4. Si la distribución cambia después, la ejecución se marca como *posiblemente desactualizada* sin borrarla (`VAL-CORE-INVALIDATION-001`).\n5. Bloquear la edición estructural del plano mientras una simulación corre, salvo mecanismo explícito (`MAP-008`).\n6. Saneamiento técnico: romper los dos ciclos de imports y la dependencia `engine → store` sin cambiar resultados.\n\n## Requisitos no funcionales / restricciones\n\n- **No negociable:** conservar intactos la conservación matemática de afluencia y la sincronización única de `EventDemandConfig`.\n- **No negociable:** rutas sanitarias A/B/C, alertas a `Carpa Amarilla` y `Punto Violeta`, y aviso estructural `500 kg/m²` deben seguir funcionando y probados.\n- Mantener 60 FPS de la animación actual.\n- Las simulaciones no aparecen en el Centro de Operaciones real (OX-13).\n\n## Criterios de aceptación\n\n- [ ] `VAL-SIM-REPEAT-001`: misma instantánea, versión, parámetros y semilla dan los mismos resultados numéricos en dos ejecuciones.\n- [ ] `VAL-SIM-ISOLATION-001`: un accidente y una respuesta virtual no crean incidencias reales, avisos externos, cambios de vehículos reales ni gastos.\n- [ ] Una ejecución guardada muestra versión del plano, semilla y parámetros.\n- [ ] Los ciclos de imports desaparecen y los 23 suites unitarios siguen en verde con los mismos resultados.\n\n## Pruebas / verificación\n\n- Test de reproducibilidad con semilla fija comparando métricas numéricas, no capturas.\n- Tests existentes de afluencia y demanda como regresión obligatoria.\n- Medición de FPS antes y después del saneamiento.\n\n## Riesgos y supuestos\n\n- **Riesgo:** refactorizar el motor puede alterar resultados. Fijar resultados de referencia antes de tocar nada.\n- **Decisión pendiente** (`ADR-024-004`): qué simulaciones corren en el navegador y cuáles en un proceso aparte.\n- **Supuesto:** la calibración con datos reales queda fuera del piloto; los resultados son orientativos.\n",
       "status": "open",
-      "version": 2,
+      "version": 3,
       "created_by": "Importación original",
       "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T10:41:32+00:00",
+      "updated_at": "2026-11-25T10:53:48+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
       "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "frustration, author_effort",
+          "created_at": "2026-11-25T10:53:48+00:00"
+        },
         {
           "actor": "YELODESA",
           "action": "tarea-editada",
