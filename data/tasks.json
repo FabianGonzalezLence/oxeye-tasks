@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:57:31+00:00",
+  "updated_at": "2026-11-25T10:57:45+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -1029,16 +1029,30 @@
       "dev_response": "",
       "custom_txt": "# OX-23 · Definir qué se entrega y qué se mantiene\n\n| Campo | Valor |\n|---|---|\n| Fase | 04 · Preparar el piloto |\n| Tipo | Feature (definición de alcance; documento, sin código) |\n| Punto de la reunión 24/11 | 23 · Definir bien el piloto |\n| Nivel propuesto para el piloto | Núcleo obligatorio (condición para cerrar el alcance) |\n| Depende de | OX-01, OX-02, OX-24 |\n| Bloquea | OX-22 (qué etapas entran) y la planificación de todas las tareas |\n| Decisiones de referencia | `ADR-024-007` alcance del piloto, `ADR-024-012` servicio recurrente ([ESP] §24.150, §24.155) |\n\n## Objetivo\n\nConcretar **qué funciones entran en el piloto, qué se podrá enseñar, qué queda fuera y cómo se mantendría después**, para que se pueda valorar una prueba realista sin promesas abiertas.\n\n## Contexto relevante\n\n**[Hecho]**\n- Reunión 24/11: «los 24 puntos están definidos y repartidos como líneas de trabajo, pero no significa que estén terminados». Acceso al prototipo por enlace, con aviso de que está en mantenimiento.\n- El servidor compartido depende de presupuesto; la inversión en herramientas de desarrollo la asume el equipo.\n- Hoy OxEye es un prototipo avanzado en simulación, sin backend ni multiusuario (auditoría 25/11).\n\n**[ESP]** (capítulos 20 y 22)\n- Tres niveles ([ESP] §20.9–§20.12): **núcleo obligatorio** (18 capacidades), **ampliación prioritaria** y **experimental** (simulación a gran escala, comportamiento humano detallado, emergencias complejas, incendios, acústica, etc.).\n- Recomendación de alcance: priorizar **Mapa → Inventario → Calendario → Economía → Operaciones**; la simulación entra con alcance explícito y pruebas.\n- Diferencia entre **demostración** y **piloto operativo** ([ESP] §20.73). Mantenimiento correctivo, preventivo y evolutivo ([ESP] §20.83–§20.85).\n- `PLAN-004`: aceptar una idea no compromete su implementación en plazo y presupuesto. `PLAN-005`: no fijar fechas contractuales antes de auditar y dimensionar. `PLAN-006`: el piloto no implica servicio recurrente. `TEC-015`: no presentar lo planificado como verificado. `EXP-003`, `EXP-009`, `EXP-012`, `EXP-013`.\n\n## Requisitos funcionales (contenido del documento)\n\n1. Tabla de las 24 tareas OX con su clasificación: *dentro del piloto*, *demostrable como prototipo*, *fuera del piloto*.\n2. Para cada función incluida: qué podrá hacer el usuario, con qué datos (ficticios o reales) y qué limitaciones se comunicarán.\n3. Lista explícita de **lo que no se entrega** (por ejemplo: integración con plataformas municipales, firma electrónica, certificación estructural o de seguridad).\n4. Condiciones de aceptación del piloto y quién las firma internamente.\n5. Modelo de mantenimiento posterior: correctivo, preventivo y evolutivo, con responsables y recursos necesarios, marcado como propuesta.\n6. Dependencias externas: presupuesto del servidor, datos del recinto, interlocutores.\n7. Calendario por hitos **sin fechas contractuales** hasta cerrar OX-01 y OX-24.\n\n## Requisitos no funcionales / restricciones\n\n- Lenguaje claro para personas no técnicas (Elvis y responsables institucionales).\n- Todo lo experimental lleva rótulo de experimental (`INV-016`).\n- Las 5 restricciones no negociables del proyecto aparecen como compromisos fijos que ninguna reducción de alcance puede relajar.\n- No anunciar uso, aval o contratación municipal que no exista (`EXP-013`).\n\n## Criterios de aceptación\n\n- [ ] Documento de alcance aprobado por dirección de producto y coordinación técnica.\n- [ ] Cada una de las 24 tareas tiene clasificación y motivo.\n- [ ] La sección «qué queda fuera» existe y es concreta.\n- [ ] El plan B sin servidor está descrito con lo que sí y lo que no se puede enseñar.\n\n## Pruebas / verificación\n\n- Lectura cruzada: cada función «dentro del piloto» tiene una etapa en `VAL-E2E-CRISTO-001` (OX-22).\n- Revisión con el destinatario no técnico: ¿entiende qué recibe y qué no?\n\n## Riesgos y supuestos\n\n- **Riesgo:** prometer los 24 puntos. Mitigación: niveles y lista de exclusiones.\n- **Decisión pendiente:** modelo de continuidad (cuota, por evento, mixto, implantación dedicada) y derechos de explotación (`ADR-024-010`, `ADR-024-012`). Requieren revisión jurídica y comercial, fuera del alcance técnico.\n",
       "status": "open",
-      "version": 3,
+      "version": 4,
       "created_by": "Importación original",
       "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T10:57:31+00:00",
+      "updated_at": "2026-11-25T10:57:45+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
-      "comments": [],
+      "comments": [
+        {
+          "id": "868e944739ca",
+          "task_id": "OX-23",
+          "author": "YELODESA",
+          "body": "a",
+          "created_at": "2026-11-25T10:57:45+00:00"
+        }
+      ],
       "attachments": [],
       "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "comentario",
+          "detail": "a",
+          "created_at": "2026-11-25T10:57:45+00:00"
+        },
         {
           "actor": "YELODESA",
           "action": "tarea-editada",
