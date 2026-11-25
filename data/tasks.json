@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:57:47+00:00",
+  "updated_at": "2026-11-25T10:59:20+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -273,22 +273,28 @@
       "phase": "01 · Conectar el núcleo",
       "priority": "P1",
       "owner": "Fabián",
-      "frustration": null,
+      "frustration": 7,
       "author_effort": 8,
-      "dev_effort": 7,
+      "dev_effort": 5,
       "dev_response": "",
       "custom_txt": "# OX-06 · Calendario que entiende dependencias\n\n| Campo | Valor |\n|---|---|\n| Fase | 01 · Conectar el núcleo |\n| Tipo | Feature |\n| Punto de la reunión 24/11 | 06 · Calendario que avisa de retrasos |\n| Nivel propuesto para el piloto | Núcleo obligatorio ([ESP] §20.10, puntos 8 y 9) |\n| Depende de | OX-03, OX-05 |\n| Bloquea | OX-10, OX-11, OX-12, OX-13, OX-22 |\n| Hito de referencia | HITO-05 · Planificación temporal ([ESP] §20.53) |\n| Rama sugerida | `feat/ox-06-calendario-dependencias` |\n\n## Objetivo\n\nUn calendario operativo donde montaje, evento y desmontaje sean actividades enlazadas: si un camión llega tarde, se ve qué montajes, equipos y horarios se ven afectados antes de que alteren la jornada.\n\n## Contexto relevante\n\n**[Hecho]**\n- Existen días del evento (`1–30`) y jornadas configurables de montaje (`pre`) y recogida (`post`) con nombre, fecha y horario.\n- Hay un programa por días (`ProgrammeDialog.tsx`, `programme.ts`) y fases logísticas (`phases.ts`, `shift.ts`) con secuencia de montaje *far-to-near* y desmontaje *near-to-far*.\n- No hay dependencias explícitas entre actividades ni detección de conflictos de recursos en el tiempo.\n\n**[ESP]** (capítulo 03)\n- `INV-005`: intervalos inequívocos; los solapamientos incompatibles no se confirman.\n- `TEC-006`: no guardar horarios que dependan de la configuración del ordenador. Zona del escenario de referencia: `Atlantic/Canary`.\n- `OPS-006` y [ESP] §24.78: un retraso registrado conserva el horario previsto como referencia histórica.\n- Pruebas: `VAL-CAL-01` a `VAL-CAL-10` y `VAL-CAL-CHAIN-001` (descarga → montaje → comprobación; al retrasar la descarga se identifican las sucesoras afectadas).\n\n## Requisitos funcionales\n\n1. Entidad `Actividad`/`Tarea` con inicio, fin o duración, fase operativa, responsable y recursos (unidades de OX-05, equipos de OX-11).\n2. Dependencias tipadas **[Propuesta]**: fin→inicio como mínimo; otras (inicio→inicio, fin→fin) solo si se necesitan.\n3. Vista multipista por día: una pista por zona, equipo o recurso.\n4. Al mover o alargar una actividad: recalcular sucesoras, mostrar holguras si están calculadas, marcar conflictos de recurso y de dependencia, y pedir confirmación antes de mover compromisos confirmados.\n5. Registrar **lo ocurrido** (inicio y fin reales) sin sobrescribir lo planificado.\n6. Operaciones que cruzan medianoche y visualización correcta desde otra zona horaria.\n\n## Requisitos no funcionales / restricciones\n\n- Un único marco temporal para logística, personal y producción ([ESP] §24.108): ningún módulo crea su propio sistema de fechas.\n- Almacenar instantes absolutos con zona horaria explícita.\n- Mover una barra en la interfaz no invalida reservas confirmadas sin aviso ([ESP] §24.70).\n- Las ventanas de acceso de emergencia no pueden quedar bloqueadas por actividades de montaje sin aviso.\n\n## Criterios de aceptación\n\n- [ ] El usuario programa montaje, evento y desmontaje del caso de prueba y los encuentra tras recargar.\n- [ ] `VAL-CAL-CHAIN-001`: retrasar la descarga marca montaje y comprobación como afectados, muestra consecuencias y no mueve compromisos confirmados sin confirmación.\n- [ ] Dos actividades que usan la misma unidad en intervalos solapados generan un conflicto visible.\n- [ ] Una actividad de 22:00 a 02:00 se guarda y se muestra correctamente.\n- [ ] El horario previsto se conserva junto al real tras registrar un retraso.\n\n## Pruebas / verificación\n\n- Unitarias de propagación de dependencias y detección de ciclos (A depende de B y B de A debe rechazarse).\n- Tests con instantes fijos, nunca con la fecha del ordenador ([ESP] §21.6).\n- E2E del flujo de retraso.\n\n## Riesgos y supuestos\n\n- **Riesgo:** construir un gestor de proyectos completo. Limitar a lo que necesita el piloto.\n- **Supuesto:** las jornadas `pre`/`event`/`post` actuales se migran como actividades del nuevo calendario.\n- **Decisión pendiente:** si la reprogramación automática se ofrece como propuesta o solo se muestran conflictos.\n",
       "status": "open",
-      "version": 4,
+      "version": 5,
       "created_by": "Importación original",
       "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T10:51:26+00:00",
+      "updated_at": "2026-11-25T10:59:20+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
       "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "frustration, dev_effort",
+          "created_at": "2026-11-25T10:59:20+00:00"
+        },
         {
           "actor": "YELODESA",
           "action": "tarea-editada",
