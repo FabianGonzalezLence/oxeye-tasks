@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:49:21+00:00",
+  "updated_at": "2026-11-25T10:49:48+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -121,24 +121,30 @@
       "depends": "OX-02",
       "chapter": "02 / 04 / 19",
       "phase": "01 · Conectar el núcleo",
-      "priority": "P0",
+      "priority": "P1",
       "owner": "Fabián",
-      "frustration": null,
-      "author_effort": null,
+      "frustration": 8,
+      "author_effort": 8,
       "dev_effort": null,
       "dev_response": "",
       "custom_txt": "# OX-03 · Crear usuarios, permisos y proyectos\n\n| Campo | Valor |\n|---|---|\n| Fase | 01 · Conectar el núcleo |\n| Tipo | Feature |\n| Punto de la reunión 24/11 | 03 · Varios eventos y responsables |\n| Nivel propuesto para el piloto | Núcleo obligatorio ([ESP] §20.10, puntos 1, 2 y 14) |\n| Depende de | OX-01, OX-02 |\n| Bloquea | OX-04, OX-11, OX-13, OX-20, OX-21, OX-22 |\n| Hito de referencia | HITO-02 · Persistencia y entidades ([ESP] §20.50) |\n| Rama sugerida | `feat/ox-03-proyectos-permisos` |\n\n## Objetivo\n\nQue un mismo proyecto pueda organizar varias actividades en distintas plazas y que cada persona vea y modifique solo lo que le corresponde. Se crea la jerarquía **Organización → Proyecto → Evento → Jornada → Actividad** y un modelo básico de usuarios y roles.\n\n## Contexto relevante\n\n**[Hecho]**\n- Hoy OxEye trabaja con un único «modelo» abierto a la vez (menú principal: Continuar, Cargar `.json`, Crear nuevo con Wizard de 4 pasos). No hay usuarios ni permisos.\n- Existen recintos preconfigurados (`cristo`, `constitucion`, `vega`) y ubicaciones personalizadas, pero un proyecto no agrupa varios eventos.\n- Ya hay entidades cercanas: empresas y contactos (`OrganizationsDialog.tsx`, `ContactsDialog.tsx`), programa por días (`ProgrammeDialog.tsx`) y jornadas `pre` / `event` / `post`.\n\n**[ESP]** (capítulos 02 y 04)\n- `INV-001`: identidad estable; no se duplican entidades al recargar o reintentar.\n- `INV-002`: ninguna consulta accede a datos de otra organización sin autorización.\n- `INV-011` y `SEC-001`: las operaciones protegidas comprueban permisos **en el servidor**. `UX-009`: ocultar un botón no es seguridad.\n- Aceptación del HITO-02: crear un evento, cerrar la aplicación y recuperarlo desde una nueva sesión autorizada, sin duplicados.\n\n## Requisitos funcionales\n\n1. Entidades con identificador estable: `Organización`, `Usuario`, `Proyecto`, `Evento`, `Jornada`, `Actividad`. Un proyecto contiene varios eventos; un evento se celebra en uno o más recintos.\n2. Roles mínimos **[Propuesta]**, a validar en OX-20 y OX-24: *Administración de organización*, *Coordinación de evento*, *Técnico/a*, *Jefe/a de equipo*, *Montador/a*, *Proveedor externo* (acceso limitado), *Solo lectura*.\n3. Permisos por proyecto y por evento: una persona puede ser coordinadora en un evento y solo lectora en otro.\n4. Invitar a una persona a un proyecto, cambiar su rol y retirarle el acceso, dejando registro de quién lo hizo y cuándo (`INV-012`).\n5. Selector de proyecto y evento en la interfaz, con cabecera de contexto que indique siempre en qué proyecto, evento y jornada se trabaja.\n6. Migración: un JSON de proyecto actual se puede importar como un evento dentro de un proyecto nuevo, sin perder datos.\n\n## Requisitos no funcionales / restricciones\n\n- Si OX-02 decide trabajar temporalmente sin servidor, la interfaz **no puede presentar** el control de permisos como seguridad real; debe indicar que es modo local de un solo usuario.\n- Datos personales mínimos (nombre, contacto profesional, rol). No se recogen datos que no tengan finalidad (`CUM-008`).\n- Los datos del `Punto Violeta` solo son visibles para el rol expresamente autorizado; nunca en vista pública.\n- Terminología oficial: «Sesión guardada», «Recinto», «Fase operativa», «Espacio de trabajo».\n\n## Criterios de aceptación\n\n- [ ] Un usuario crea un proyecto con dos eventos en recintos distintos, cierra la aplicación y los recupera en otra sesión sin duplicados.\n- [ ] Un usuario con rol de proveedor puede consultar una orden asignada pero su intento de modificar el presupuesto global se rechaza en servidor (prueba de permisos cruzados, [ESP] §21.83).\n- [ ] Un usuario de la organización A no ve ningún dato de la organización B (prueba de aislamiento organizativo, [ESP] §21.68).\n- [ ] Un proyecto exportado con la versión actual se importa como evento sin pérdida de elementos.\n\n## Pruebas / verificación\n\n- Unitarias del modelo de permisos (matriz rol × acción).\n- Integración: recarga sin duplicados (`INV-001`), aislamiento entre organizaciones (`INV-002`).\n- E2E: crear proyecto → crear dos eventos → cerrar → reabrir.\n\n## Riesgos y supuestos\n\n- **Riesgo:** depende de la decisión de servidor (OX-02). Sin servidor solo es posible una demostración local de un usuario.\n- **Riesgo:** inventar demasiados roles. Empezar con pocos y ampliar con datos del montaje real (visita del 2/12).\n- **Decisión pendiente:** método de autenticación (correo y contraseña, enlace mágico, cuenta institucional).\n",
       "status": "open",
-      "version": 4,
+      "version": 5,
       "created_by": "Importación original",
       "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T10:36:46+00:00",
+      "updated_at": "2026-11-25T10:49:48+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
       "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "priority, frustration, author_effort",
+          "created_at": "2026-11-25T10:49:48+00:00"
+        },
         {
           "actor": "YELODESA",
           "action": "tarea-editada",
