@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:54:34+00:00",
+  "updated_at": "2026-11-25T10:54:52+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -843,22 +843,28 @@
       "phase": "03 · Simular para decidir",
       "priority": "P2",
       "owner": "Equipo",
-      "frustration": null,
-      "author_effort": null,
+      "frustration": 1,
+      "author_effort": 5,
       "dev_effort": null,
       "dev_response": "",
       "custom_txt": "# OX-19 · Aprender de un evento para el siguiente\n\n| Campo | Valor |\n|---|---|\n| Fase | 03 · Simular para decidir |\n| Tipo | Feature |\n| Punto de la reunión 24/11 | 19 · Aprender de eventos anteriores |\n| Nivel propuesto para el piloto | Ampliación prioritaria (indicadores históricos, [ESP] §20.11) |\n| Depende de | OX-06, OX-07, OX-13, OX-16 |\n| Bloquea | OX-22 (etapa 13) |\n| Rama sugerida | `feat/ox-19-aprendizaje-historico` |\n\n## Objetivo\n\nConservar costes, tiempos e incidencias **realmente registrados** de cada evento para consultarlos al preparar la siguiente edición y no empezar cada año desde cero.\n\n## Contexto relevante\n\n**[Hecho]**\n- Existe una memoria de revisión (`review-memory.ts`), diagnóstico post-simulación (`PostSimDiagnosticsView.tsx`) y 40 objetivos SMART calculables en 10 categorías (`objectives.ts`). Todo ello trabaja hoy sobre **resultados simulados**.\n- No hay cierre de evento ni archivo histórico de datos reales.\n\n**[ESP]** (capítulo 18)\n- `INV-020`: cada resultado usado para decidir conserva fuente, alcance y limitaciones. `INV-013` y `ANA-010`: la falta de datos no es cumplimiento ni incumplimiento.\n- `ANA-002`: cifra sin procedencia = no verificada. `ANA-003`: la fórmula de un indicador no cambia en silencio. `ANA-011`: correlación no es causa. `ANA-014`: no mostrar cálculos históricos como si fueran de la versión actual.\n- `ANA-009` / `ANA-016`: los análisis no permiten reidentificar personas combinando filtros.\n- `VAL-ANA-MISSING-001`: con coste conocido y asistentes reales desconocidos, el «coste por visitante real» no se calcula como real; se puede ofrecer una variante estimada etiquetada.\n- `MST-008`: la analítica no modifica el evento vigente; genera recomendaciones.\n\n## Requisitos funcionales\n\n1. **Cierre de evento**: congelar plan final, ejecución real (horarios reales de OX-06, entregas de OX-10, incidencias de OX-13) y costes por estado (OX-07).\n2. Indicadores básicos plan vs. real con fuente y unidad: desviación de horarios, desviación de coste por partida, incidencias por categoría y tiempo de resolución (definiendo qué evento marca el final, `ANA-007`).\n3. Comparar dos ediciones del mismo evento o recinto, indicando qué no es comparable.\n4. **Biblioteca de aprendizajes**: notas estructuradas («la zona de descarga norte se colapsa a las 8:00») con evidencia enlazada, para consultarlas al crear el evento siguiente.\n5. Al crear un evento nuevo en el mismo recinto, ofrecer los aprendizajes previos como sugerencias.\n6. Los datos simulados se muestran aparte y nunca se mezclan en los indicadores reales.\n\n## Requisitos no funcionales / restricciones\n\n- **No negociable — Punto Violeta:** sus datos solo entran en indicadores agregados y anonimizados, nunca en detalle.\n- Cada indicador tiene versión de fórmula.\n- Sin exportaciones automáticas en PDF (`ANA-015`); solo bajo petición.\n\n## Criterios de aceptación\n\n- [ ] `VAL-ANA-MISSING-001` pasa.\n- [ ] Cerrar el evento de prueba genera un resumen plan vs. real con fuentes.\n- [ ] Al crear la siguiente edición en el mismo recinto aparecen los aprendizajes guardados.\n- [ ] Los indicadores de incidencias `VIO` solo aparecen agregados.\n\n## Pruebas / verificación\n\n- Unitarias de cada indicador con datos ausentes, parciales y completos.\n- Test de privacidad (combinaciones de filtros sobre incidencias sensibles).\n- E2E: cerrar evento → crear edición siguiente → ver aprendizajes.\n\n## Riesgos y supuestos\n\n- **Riesgo:** pocos eventos reales para sacar conclusiones. Indicar el tamaño de la muestra en cada comparación.\n- **Supuesto:** el piloto solo tendrá un evento ficticio (`DEMO-CRISTO-001`); los datos históricos reales llegarán después.\n",
       "status": "open",
-      "version": 2,
+      "version": 3,
       "created_by": "Importación original",
       "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T10:42:11+00:00",
+      "updated_at": "2026-11-25T10:54:52+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
       "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "frustration, author_effort",
+          "created_at": "2026-11-25T10:54:52+00:00"
+        },
         {
           "actor": "YELODESA",
           "action": "tarea-editada",
