@@ -1,0 +1,1257 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#192d26"><title>OxEye · Gestión del equipo</title>
+<style>
+:root{--ink:#18261f;--ink2:#3b4c43;--muted:#829088;--line:#e3e8e3;--bg:#f8faf8;--paper:#fff;--pine:#192d26;--accent:#6346a0;--accentp:#f0ebf7;--green:#397258;--red:#a75441;--gold:#ba8b3a;--radius:11px;--shadow:0 14px 60px rgba(22,38,30,.12)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink);background:var(--bg)}body{font-size:13.5px}button,input,textarea,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+a{color:inherit;text-decoration:none}
+.hidden{display:none!important}.muted{color:#73847b}.mono,.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}.micro{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:750;color:#718176}.small{font-size:12px}.line{height:1px;background:var(--line)}
+.btn{border:1px solid var(--line);background:#fff;border-radius:8px;min-height:36px;padding:8px 12px;display:inline-flex;align-items:center;justify-content:center;gap:7px;color:var(--ink);white-space:nowrap;font-weight:570;transition:.15s}.btn:hover{background:#f4f6f3;border-color:#cbd4cc}.btn-primary{background:var(--pine);border-color:var(--pine);color:#fff}.btn-primary:hover{background:#31493e;border-color:#31493e}.btn-violet{background:var(--accent);border-color:var(--accent);color:#fff}.btn-violet:hover{background:#533b86}.btn-subtle{background:transparent;border-color:transparent}.btn-danger{color:var(--red);border-color:#efddd8}.btn-sm{min-height:30px;padding:6px 10px;font-size:12px}.btn-round{width:36px;padding:0}
+.field{width:100%;border:1px solid #dbe3dc;border-radius:8px;background:#fff;min-height:39px;padding:9px 11px;color:var(--ink)}textarea.field{resize:vertical;min-height:90px;line-height:1.5}.field::placeholder{color:#a0aaa1}.field-label{display:block;font-size:11px;font-weight:690;margin-bottom:7px;color:#34493d}.field-help{font-size:11px;color:#8a988e;margin-top:5px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.span2{grid-column:span 2}
+/* app */
+#app{display:flex;min-height:100vh}aside{width:232px;min-width:232px;background:#192e26;color:#f2f4ef;display:flex;flex-direction:column;padding:29px 14px 16px;position:sticky;top:0;height:100vh}.brand{padding:0 13px 34px;display:flex;align-items:center;gap:10px}.brandmark{border:1.5px solid rgba(230,245,235,.7);border-radius:50%;width:30px;height:30px;display:grid;place-items:center}.brandmark svg{width:19px;height:19px}.brand strong{font-weight:780;letter-spacing:.2em;font-size:14px}.brand sub{display:block;font-size:9px;letter-spacing:.12em;color:#9db4a7;text-transform:uppercase;margin-top:3px}.sidetitle{font-size:9px;font-weight:780;letter-spacing:.19em;text-transform:uppercase;color:#8eab9b;padding:0 13px 10px}.navitem{height:44px;width:100%;padding:0 12px;display:flex;align-items:center;gap:12px;border:1px solid transparent;border-radius:7px;color:#bccdc3;background:none;text-align:left;margin:2px 0;font-size:13px}.navitem:hover{background:#294036;color:#fff}.navitem.active{background:#314b3e;color:#fff;border-color:#496558}.navicon{width:20px;text-align:center;color:#d5c9f4;font-size:14px}.navcount{margin-left:auto;font-size:11px;color:#b8c6bb;font-variant-numeric:tabular-nums}.asidefoot{margin-top:auto;padding:18px 11px 2px;border-top:1px solid #3b5246}.connection{font-size:11px;display:flex;gap:9px;align-items:center;color:#a8c0b1;line-height:1.5}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#f1b867;flex:none}.dot.live{background:#78cc98}.dot.off{background:#d97b68}.asidefoot .extra{font-size:10px;color:#88a193;margin-top:10px;line-height:1.55;word-break:break-word}
+main{flex:1;min-width:0;padding:34px 4.2vw 54px;max-width:1900px;margin:0 auto}.top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}.pageeyebrow{display:flex;align-items:center;gap:10px;margin-bottom:10px}.eyedot{width:7px;height:7px;background:#6a4db1;border-radius:50%}h1{font-size:29px;letter-spacing:-.065em;font-weight:680;margin:0 0 8px;line-height:1.1}h2{font-size:18px;letter-spacing:-.03em;font-weight:660}p{line-height:1.58}.subtitle{color:#7b8a7e;max-width:590px;margin:0;font-size:13px}.topactions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.profile{margin-left:8px;display:flex;gap:10px;align-items:center;padding-left:14px;border-left:1px solid var(--line)}.avatar{width:33px;height:33px;border-radius:9px;background:#ebe7f5;color:#694aaa;display:grid;place-items:center;font-weight:750;font-size:12px;overflow:hidden}.avatar img{width:100%;height:100%;object-fit:cover}.profile strong{display:block;font-size:12px}.profile span{font-size:11px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin:31px 0 20px}.stat{border:1px solid #e4eae4;border-radius:9px;background:#fff;padding:17px 17px 15px}.stat .name{font-size:11px;color:#74867a}.stat .n{font-size:27px;font-weight:650;letter-spacing:-.06em;margin:7px 0 3px}.stat .foot{font-size:10px;color:#95a19a}.stat.strong{border-top:2px solid var(--accent)}
+.board{background:#fff;border:1px solid #e3e8e3;border-radius:12px;overflow:hidden}.boardhead{display:flex;align-items:center;justify-content:space-between;padding:22px 22px 16px;gap:16px}.boardhead h2{margin:0 0 3px;font-size:17px}.boardhead p{font-size:12px;color:#84928a;margin:0}.filterbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.searchwrap{position:relative}.searchwrap input{border:1px solid var(--line);height:36px;width:228px;border-radius:8px;padding:8px 10px 8px 32px;font-size:12px}.searchwrap:before{content:'⌕';font-size:19px;position:absolute;left:11px;top:5px;color:#93a298}.select{height:36px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:0 9px;color:#516358;font-size:12px}.summaryline{padding:0 22px 15px;font-size:11px;color:#97a49a;display:flex;gap:10px;flex-wrap:wrap}.twrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:880px}th{text-align:left;font-weight:650;font-size:10px;letter-spacing:.085em;text-transform:uppercase;color:#86978b;background:#fafbf9;border-top:1px solid #edf1ed;border-bottom:1px solid #edf1ed;padding:13px 14px;white-space:nowrap}td{padding:15px 14px;border-bottom:1px solid #edf0ed;vertical-align:middle;color:#4d6255;font-size:12px}tbody tr{cursor:pointer}tbody tr:hover{background:#fafbf9}tbody tr:last-child td{border-bottom:0}.taskcell{min-width:290px;max-width:480px}.tasktitle{color:#1d3026;font-weight:645;font-size:13px;line-height:1.4}.taskmeta{color:#92a096;font-size:11px;line-height:1.8;margin-top:3px}.tag{font-size:10px;font-weight:720;letter-spacing:.05em;text-transform:uppercase;padding:4px 7px;border:1px solid #dce7de;border-radius:5px;background:#f5f9f5;color:#3c7358}.tag.fix{background:#faf0ec;border-color:#f1dfd7;color:#a8694d}.tag.feature{background:#f2eef9;border-color:#e6dff3;color:#7456a1}.priority{display:inline-flex;align-items:center;gap:5px;font-weight:650;color:#64766a}.priority b{width:6px;height:6px;border-radius:50%;background:#bd9454;display:inline-block}.priority.P0 b{background:#b65f4c}.priority.P2 b{background:#87a7a0}.rating{display:inline-flex;align-items:baseline;gap:2px}.rating strong{font-size:16px;color:#22372a;font-weight:670}.rating span{color:#9aa99e;font-size:11px}.empty{padding:72px 20px;text-align:center;color:#85988b}.empty strong{font-size:15px;color:#34483c;display:block;margin-bottom:8px}
+/* quick-tick button */
+.checkcell{width:44px;padding-right:4px!important;text-align:center}
+.checkbtn{width:24px;height:24px;border-radius:50%;border:1.5px solid #c5d1c7;background:#fff;color:transparent;display:inline-grid;place-items:center;padding:0;font-size:13px;font-weight:700;transition:.15s}
+.checkbtn:hover{border-color:var(--green);background:#eef6f1;color:var(--green)}
+.checkbtn.review{border-color:#b8a5de;background:#f7f4fc;color:var(--accent)}
+.checkbtn.review:hover{border-color:var(--accent);background:var(--accent);color:#fff}
+.checkbtn.history{border-color:var(--green);background:var(--green);color:#fff}
+.checkbtn.history:hover{background:#2c5b45;border-color:#2c5b45}
+/* drawer */
+.backdrop{position:fixed;inset:0;background:rgba(14,28,18,.31);z-index:20;animation:fade .12s}.drawer{position:fixed;right:0;top:0;bottom:0;width:min(590px,100vw);z-index:21;background:#fff;box-shadow:var(--shadow);display:flex;flex-direction:column;animation:slide .17s ease-out}.drawer-top{padding:24px 26px 19px;border-bottom:1px solid var(--line)}.drawer-top .row{display:flex;align-items:center;gap:9px}.drawer-top h2{font-size:22px;margin:10px 0 7px;letter-spacing:-.045em;line-height:1.26}.drawer-body{padding:25px 27px 60px;flex:1;overflow-y:auto}.drawer-bottom{border-top:1px solid var(--line);padding:13px 24px;background:#fff;display:flex;align-items:center;gap:8px;flex-wrap:wrap;position:sticky;bottom:0}.sect{border-top:1px solid var(--line);padding-top:24px;margin-top:24px}.secttitle{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:12px;font-weight:750;color:#283d30;margin-bottom:15px}.secttitle span{font-size:11px;font-weight:400;color:#99a99d}.fields{display:grid;grid-template-columns:1fr 1fr;gap:13px}.note{border:1px solid #ecefeb;background:#f9fbf9;padding:11px 13px;border-radius:8px;color:#5c6f61;line-height:1.55;font-size:12px}.note.warn{background:#fdf9f2;border-color:#f2e7d2;color:#8e7448}.scoregroup{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:3px}.scorebtn{height:31px;border:1px solid #dde5dc;border-radius:5px;background:#fff;color:#819385;padding:0;font-size:11px}.scorebtn.active{background:#253b2e;color:#fff;border-color:#253b2e}.answer{background:#f7f4fc;border:1px solid #ece5f7;border-radius:9px;padding:13px}.attachments{display:grid;gap:7px}.fileitem{padding:9px 10px;border:1px solid var(--line);border-radius:7px;display:flex;align-items:center;gap:9px;justify-content:space-between;min-width:0}.fileitem strong{display:block;word-break:break-all;font-size:11.5px;font-weight:640}.fileitem small{color:#9aa89d;font-size:10px}.dropzone{border:1px dashed #bacbbc;border-radius:8px;background:#fafcf9;padding:16px;text-align:center;color:#748c79;margin-top:9px;cursor:pointer;display:block}.dropzone:hover{background:#f5f8f4}.comment{border-bottom:1px solid #edf0eb;padding:13px 0}.commenthead{display:flex;justify-content:space-between;gap:10px;color:#859687;font-size:11px;margin-bottom:6px}.commenthead b{color:#2c4436}.commentbody{font-size:12px;white-space:pre-wrap;line-height:1.55;color:#415747}.activity{font-size:11px;color:#839386;border-left:1px solid #cedbd0;margin-left:5px;padding:0 0 13px 14px;position:relative}.activity:before{content:'';position:absolute;left:-4px;top:3px;width:7px;height:7px;background:#cad5cb;border-radius:50%}.activity b{display:block;color:#50695a;font-size:11px;margin-bottom:4px}.activity small{display:block;font-size:10px;margin-top:3px;color:#a6b1a8}.newmodal{position:fixed;z-index:31;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;border:1px solid var(--line);border-radius:12px;width:min(660px,calc(100vw - 28px));max-height:90vh;overflow:auto;box-shadow:var(--shadow);padding:27px}.modalhead{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px}.modalhead h2{margin:0 0 6px;font-size:22px}.modalhead p{margin:0;color:#87968b;font-size:12px}.modalfooter{display:flex;justify-content:flex-end;gap:8px;margin-top:24px;padding-top:17px;border-top:1px solid var(--line)}
+/* login */
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f6f8f5;padding:24px}.loginbox{max-width:450px;width:100%;background:white;padding:36px;border:1px solid #e3eae3;border-radius:13px;box-shadow:0 18px 50px rgba(21,50,33,.05)}.loginbox h1{font-size:25px;margin:18px 0 8px}.loginbox p{margin-bottom:22px}.loginbox .field{margin:0 0 14px}.loginbox .btn{width:100%;margin-top:8px}.loginbrand{font-size:12px;letter-spacing:.2em;font-weight:800}.loginbrand i{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;border:2px solid #68499e;border-radius:50%;font-style:normal;color:#68499e;margin-right:7px}.loginmsg{background:#faf2ec;border:1px solid #eeddd1;color:#94684d;padding:10px 12px;border-radius:7px;line-height:1.5;font-size:11.5px;display:none;margin-top:14px}.loginfoot{margin-top:20px;font-size:11.5px;line-height:1.6;color:#7f9083}.loginfoot a{color:var(--accent);font-weight:600;text-decoration:underline}.row2{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);padding:12px 17px;background:#1b3025;color:#fff;border-radius:8px;box-shadow:0 12px 30px #16271b30;font-size:12px;z-index:99;max-width:calc(100vw - 28px);text-align:center;display:none}.toast.error{background:#9e5143}.conflictbar{padding:11px 17px;background:#fff2e8;border-bottom:1px solid #ecd0bb;color:#94684d;font-size:11.5px;display:none;align-items:center;justify-content:space-between;gap:10px}
+@keyframes slide{from{transform:translateX(15px);opacity:.6}to{transform:translateX(0);opacity:1}}@keyframes fade{from{opacity:0}to{opacity:1}}
+@media(max-width:1040px){main{padding:27px 22px}.stats{grid-template-columns:repeat(2,1fr)}.boardhead{flex-direction:column;align-items:stretch}.filterbar{justify-content:space-between}.searchwrap{flex:1}.searchwrap input{width:100%}.profile .persontext{display:none}}
+@media(max-width:680px){#app{display:block}aside{height:auto;min-height:0;position:static;width:100%;padding:12px 14px;display:flex;flex-direction:row;align-items:center;gap:9px}.brand{padding:0;margin-right:auto}.brand sub{display:none}.sidetitle,.asidefoot{display:none}.navitem{width:36px;height:36px;justify-content:center;padding:0;flex:none}.navitem .navlabel,.navcount{display:none}main{padding:24px 14px}.top{display:block}.topactions{margin-top:20px}.topactions .btn.btn-secondary{display:none}.profile{margin-left:auto}.stats{margin:21px 0 13px;gap:7px}.stat{padding:12px 11px}.stat .n{font-size:23px}.stat .foot{display:none}.boardhead{padding:16px}.summaryline{padding:0 16px 11px}h1{font-size:26px}.boardhead h2{font-size:16px}.drawer-top{padding:19px}.drawer-body{padding:18px 17px 44px}.drawer-bottom{padding:11px 14px}.formgrid,.fields,.row2{grid-template-columns:1fr}.span2{grid-column:auto}.newmodal{padding:20px}}
+</style>
+</head>
+<body>
+<section id="login">
+  <div class="loginbox">
+    <div class="loginbrand"><i>◉</i> OXEYE</div>
+    <h1>Trabajo compartido.</h1>
+    <p class="subtitle">Sincronizado directamente con GitHub, sin servidor propio. Los cambios que hagas los verá tu equipo en segundos.</p>
+    <form id="loginForm">
+      <div class="row2">
+        <div>
+          <label class="field-label" for="loginRepo">Repositorio (usuario/repo)</label>
+          <input class="field" id="loginRepo" placeholder="miusuario/oxeye-tareas" required>
+        </div>
+        <div>
+          <label class="field-label" for="loginBranch">Rama</label>
+          <input class="field" id="loginBranch" value="main" placeholder="main" required>
+        </div>
+      </div>
+      <label class="field-label" for="loginToken">Token personal de GitHub (PAT)</label>
+      <input class="field" id="loginToken" type="password" autocomplete="off" placeholder="github_pat_…" required>
+      <label class="field-label" for="loginRole">Tu función</label>
+      <select class="field" id="loginRole">
+        <option value="desarrollo">Desarrollo · edita y envía a revisión</option>
+        <option value="admin">Dirección · edita, revisa y valida historial</option>
+        <option value="revision">Revisión · edita y valida historial</option>
+      </select>
+      <button class="btn btn-primary" id="loginSubmit" type="submit">Conectar con GitHub →</button>
+    </form>
+    <div class="loginmsg" id="loginError"></div>
+    <div class="loginfoot">
+      Solo se introduce una vez en este navegador.<br>
+      <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Crear Fine-Grained Token en GitHub ↗</a> · dale permiso <b>Contents: Read and write</b> solo sobre este repositorio.
+    </div>
+  </div>
+</section>
+
+<div id="app" class="hidden">
+  <aside>
+    <div class="brand">
+      <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M4 12h16M12 4v16" opacity=".4"/><circle cx="12" cy="12" r="4"/></svg></div>
+      <div><strong>OXEYE</strong><sub>Gestión del equipo</sub></div>
+    </div>
+    <div class="sidetitle">Lista de trabajo</div>
+    <button class="navitem active" id="navOpen" data-page="open"><span class="navicon">▤</span><span class="navlabel">Trabajo</span><span class="navcount" id="navOpenN">—</span></button>
+    <button class="navitem" id="navReview" data-page="review"><span class="navicon">◷</span><span class="navlabel">Por revisar</span><span class="navcount" id="navReviewN">—</span></button>
+    <button class="navitem" id="navHistory" data-page="history"><span class="navicon">✓</span><span class="navlabel">Historial de cambios</span><span class="navcount" id="navHistoryN">—</span></button>
+    <div class="asidefoot">
+      <div class="connection"><span class="dot" id="connectionDot"></span><span id="connectionText">Conectando a GitHub…</span></div>
+      <div class="extra" id="connectionMeta">Sincronización directa con GitHub API · sin servidor propio.</div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="top">
+      <div>
+        <div class="pageeyebrow"><span class="eyedot"></span><span class="micro">Equipo / Administración de tareas</span></div>
+        <h1 id="pageTitle">Lista de trabajo</h1>
+        <p class="subtitle" id="pageSubtitle">Lo que tenemos que hacer. Sin pantallas de simulación, sin distracciones.</p>
+      </div>
+      <div class="topactions">
+        <button class="btn" id="syncBtn" title="Comprobar cambios ahora">↻ Sincronizar</button>
+        <button class="btn btn-secondary" id="exportBtn">↓ Exportar JSON</button>
+        <button class="btn btn-primary" id="newBtn">＋ Nueva nota</button>
+        <div class="profile">
+          <div class="avatar" id="avatar">—</div>
+          <div class="persontext"><strong id="currentName">—</strong><span id="currentRole">—</span></div>
+          <button class="btn btn-round btn-subtle" id="profileBtn" title="Cuenta y repositorio">⋯</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat strong"><div class="name">En trabajo</div><div class="n num" id="statOpen">—</div><div class="foot">Pendientes de resolver</div></div>
+      <div class="stat"><div class="name">Por revisar</div><div class="n num" id="statReview">—</div><div class="foot">Trabajo entregado</div></div>
+      <div class="stat"><div class="name">Historial</div><div class="n num" id="statHistory">—</div><div class="foot">Cambios validados</div></div>
+      <div class="stat"><div class="name">Molestia media · abiertos</div><div class="n num" id="statPain">—</div><div class="foot">Escala 1–10; sin valorar = excluida</div></div>
+    </div>
+
+    <div class="board">
+      <div class="boardhead">
+        <div><h2 id="listTitle">Tareas activas</h2><p id="listSubtitle">Ideas que debemos construir y errores que debemos arreglar.</p></div>
+        <div class="filterbar">
+          <div class="searchwrap"><input id="search" placeholder="Buscar tarea, responsable, texto…" aria-label="Buscar"></div>
+          <select class="select" id="typeFilter"><option value="all">Feature + Fix</option><option value="feature">Solo features</option><option value="fix">Solo fixes</option></select>
+          <select class="select" id="sort"><option value="priority">Prioridad</option><option value="pain">Más molesto primero</option><option value="difficulty">Mayor dificultad</option><option value="recent">Más reciente</option></select>
+        </div>
+      </div>
+      <div class="summaryline">
+        <span id="shownCount">—</span><span>·</span>
+        <span>Tica el círculo izquierdo para avanzar una tarea o pulsa la fila para abrir el detalle</span>
+      </div>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="checkcell" title="Acción rápida">✓</th><th style="width:78px">Tipo</th><th>Tarea</th><th>Prioridad</th><th>Molestia</th><th>Mi cálculo</th><th>Programador</th><th>Responsable</th><th>Archivos</th></tr></thead>
+          <tbody id="taskRows"></tbody>
+        </table>
+        <div id="noTasks" class="empty hidden"><strong>No hay tareas que coincidan.</strong>Revisa los filtros o crea una nueva nota.</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="detailLayer" class="hidden">
+  <div class="backdrop" id="detailBackdrop"></div>
+  <section class="drawer" role="dialog" aria-modal="true" aria-label="Detalle de tarea">
+    <div id="conflictbar" class="conflictbar">
+      <span>Hay una versión nueva en GitHub. Copia tus cambios y actualiza la ficha antes de guardar.</span>
+      <button class="btn btn-sm" id="reloadDetailBtn">Actualizar ficha</button>
+    </div>
+    <div class="drawer-top">
+      <div class="row">
+        <span class="micro" id="drawerCode">OX-…</span>
+        <span id="drawerStage" class="tag">TRABAJO</span>
+        <span style="flex:1"></span>
+        <button class="btn btn-sm" id="copyTxt">Copiar TXT</button>
+        <button class="btn btn-round btn-subtle" id="closeDetail" aria-label="Cerrar">✕</button>
+      </div>
+      <h2 id="drawerTitle">—</h2>
+      <div class="small muted" id="drawerMeta"></div>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+    <div class="drawer-bottom" id="drawerBottom"></div>
+  </section>
+</div>
+
+<div id="modalLayer" class="hidden">
+  <div class="backdrop" id="modalBackdrop"></div>
+  <div class="newmodal" role="dialog" aria-modal="true" aria-label="Ventana">
+    <div class="modalhead">
+      <div><div class="micro" id="modalEyebrow">Nuevo / OxEye</div><h2 id="modalTitle">Nueva tarea</h2><p id="modalDesc">Define la necesidad; el programador podrá responder con su valoración.</p></div>
+      <button class="btn btn-round btn-subtle" id="closeModal">✕</button>
+    </div>
+    <div id="modalBody"></div>
+    <div class="modalfooter" id="modalFooter"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="config.js"></script>
+<script>
+'use strict';
+const CFG = Object.assign({
+  repo: '',
+  branch: 'main',
+  dataPath: 'data/tasks.json',
+  attachmentsDir: 'data/adjuntos',
+  pollMs: 8000,
+  members: {}
+}, window.OXEYE_CONFIG || {});
+
+const STORAGE_KEY = 'oxeye_gh_session_v1';
+const MAX_FILE_BYTES = 5 * 1024 * 1024;
+const ALLOWED_EXT = new Set(['.pdf','.txt','.md','.csv','.json','.docx','.xlsx','.pptx','.png','.jpg','.jpeg','.webp','.svg','.gif','.zip','.7z','.step','.stp','.stl','.glb','.obj','.dxf','.dwg','.skp','.html']);
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, x => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
+const nowIso = () => new Date().toISOString().replace(/\.\d{3}Z$/, '+00:00');
+const fmtDate = x => x ? new Intl.DateTimeFormat('es-ES', {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}).format(new Date(x)) : '—';
+const uid = (len = 8) => {
+  const arr = new Uint8Array(Math.ceil(len / 2));
+  crypto.getRandomValues(arr);
+  return Array.from(arr, b => b.toString(16).padStart(2, '0')).join('').slice(0, len);
+};
+const labelRole = {admin:'Dirección', desarrollo:'Desarrollo', revision:'Revisión'};
+const labelStatus = {open:'TRABAJO', review:'POR REVISAR', history:'HISTORIAL'};
+
+const state = {
+  token: '',
+  repo: '',
+  branch: CFG.branch,
+  user: null,
+  db: null,
+  sha: '',
+  etag: '',
+  tasks: [],
+  page: 'open',
+  selected: null,
+  selectedFull: null,
+  dirty: false,
+  form: {},
+  modal: null,
+  polling: false,
+  saving: false,
+  online: false,
+  lastSync: null
+};
+
+function toast(message, error = false) {
+  const e = $('toast');
+  e.textContent = message;
+  e.className = 'toast' + (error ? ' error' : '');
+  e.style.display = 'block';
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => e.style.display = 'none', 4200);
+}
+
+function detectRepo() {
+  if (CFG.repo && CFG.repo.includes('/')) return CFG.repo.trim();
+  const host = location.hostname.toLowerCase();
+  if (host.endsWith('.github.io')) {
+    const owner = host.slice(0, -'.github.io'.length);
+    const seg = location.pathname.split('/').filter(Boolean)[0];
+    if (owner && seg) return `${owner}/${seg}`;
+  }
+  return '';
+}
+
+function utf8ToBase64(str) {
+  const bytes = new TextEncoder().encode(str);
+  return bytesToBase64(bytes);
+}
+
+function bytesToBase64(bytes) {
+  let bin = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  }
+  return btoa(bin);
+}
+
+function base64ToBytes(b64) {
+  const bin = atob(b64.replace(/\s/g, ''));
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return bytes;
+}
+
+function base64ToUtf8(b64) {
+  return new TextDecoder().decode(base64ToBytes(b64));
+}
+
+function encodePath(p) {
+  return p.split('/').map(encodeURIComponent).join('/');
+}
+
+/* ==================== GitHub REST API Storage ==================== */
+async function ghFetch(url, {method = 'GET', body, headers = {}, raw = false} = {}) {
+  const h = {
+    'Authorization': 'Bearer ' + state.token,
+    'Accept': raw ? 'application/vnd.github.raw+json' : 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    ...headers
+  };
+  const opts = {method, headers: h, cache: 'no-store'};
+  if (body !== undefined) {
+    h['Content-Type'] = 'application/json';
+    opts.body = JSON.stringify(body);
+  }
+  let r;
+  try {
+    r = await fetch(url, opts);
+  } catch (e) {
+    throw new Error('No se pudo conectar con GitHub. Revisa tu conexión a Internet.');
+  }
+  if (r.status === 304) return {notModified: true};
+  if (raw) {
+    if (!r.ok) {
+      const err = new Error('No se pudo descargar el archivo desde GitHub.');
+      err.status = r.status;
+      throw err;
+    }
+    return {blob: await r.blob(), headers: r.headers};
+  }
+  let data = null;
+  try { data = await r.json(); } catch (_) {}
+  if (!r.ok) {
+    let msg = data?.message || `Error de GitHub (${r.status})`;
+    if (r.status === 401) msg = 'Token de GitHub inválido o caducado.';
+    else if (r.status === 403) msg = 'Sin permisos sobre el repositorio. Comprueba que el token tiene "Contents: Read and write".';
+    else if (r.status === 404) msg = 'No se encontró el repositorio, la rama o el archivo de datos.';
+    else if (r.status === 409 || r.status === 422) msg = 'Otro miembro modificó las tareas hace un instante. Actualiza antes de guardar.';
+    const err = new Error(msg);
+    err.status = r.status;
+    err.raw = data;
+    throw err;
+  }
+  return {data, headers: r.headers};
+}
+
+function normalizeTask(t) {
+  return {
+    id: t.id || ('OX-' + uid(7).toUpperCase()),
+    type: t.type === 'fix' ? 'fix' : 'feature',
+    title: String(t.title || ''),
+    description: String(t.description ?? t.work ?? ''),
+    why: String(t.why ?? ''),
+    acceptance: String(t.acceptance ?? t.check ?? ''),
+    depends: String(t.depends ?? ''),
+    chapter: String(t.chapter ?? ''),
+    phase: String(t.phase ?? ''),
+    priority: ['P0','P1','P2'].includes(t.priority) ? t.priority : 'P1',
+    owner: String(t.owner ?? ''),
+    frustration: t.frustration === null || t.frustration === undefined || t.frustration === '' ? null : Number(t.frustration),
+    author_effort: t.author_effort === null || t.author_effort === undefined || t.author_effort === '' ? null : Number(t.author_effort),
+    dev_effort: t.dev_effort === null || t.dev_effort === undefined || t.dev_effort === '' ? null : Number(t.dev_effort),
+    dev_response: String(t.dev_response ?? ''),
+    status: ['open','review','history'].includes(t.status) ? t.status : 'open',
+    version: Number(t.version) || 1,
+    created_by: String(t.created_by || 'Equipo'),
+    updated_by: String(t.updated_by || 'Equipo'),
+    created_at: t.created_at || nowIso(),
+    updated_at: t.updated_at || nowIso(),
+    reviewed_by: t.reviewed_by || null,
+    reviewed_at: t.reviewed_at || null,
+    comments: Array.isArray(t.comments) ? t.comments : [],
+    attachments: Array.isArray(t.attachments) ? t.attachments : [],
+    activity: Array.isArray(t.activity) ? t.activity : []
+  };
+}
+
+async function fetchDbFromGitHub(force = false) {
+  const url = `https://api.github.com/repos/${state.repo}/contents/${encodePath(CFG.dataPath)}?ref=${encodeURIComponent(state.branch)}`;
+  const headers = (!force && state.etag) ? {'If-None-Match': state.etag} : {};
+  try {
+    const res = await ghFetch(url, {headers});
+    if (res.notModified) return {changed: false};
+    const payload = res.data;
+    let text = '';
+    if (payload.content) {
+      text = base64ToUtf8(payload.content);
+    } else if (payload.sha) {
+      const blobRes = await ghFetch(`https://api.github.com/repos/${state.repo}/git/blobs/${payload.sha}`);
+      text = base64ToUtf8(blobRes.data.content || '');
+    }
+    const parsed = JSON.parse(text);
+    const db = {
+      schema_version: parsed.schema_version || 1,
+      updated_at: parsed.updated_at || nowIso(),
+      updated_by: parsed.updated_by || 'Equipo',
+      tasks: (Array.isArray(parsed.tasks) ? parsed.tasks : []).map(normalizeTask)
+    };
+    state.etag = res.headers.get('ETag') || '';
+    state.sha = payload.sha || '';
+    state.db = db;
+    state.tasks = db.tasks;
+    state.lastSync = new Date();
+    return {changed: true};
+  } catch (err) {
+    if (err.status === 404 && force) {
+      // Intenta inicializar data/tasks.json si el repo existe pero aún no tiene el archivo
+      await ghFetch(`https://api.github.com/repos/${state.repo}`);
+      let initialTasks = [];
+      try {
+        const localSeed = await fetch(CFG.dataPath, {cache: 'no-store'});
+        if (localSeed.ok) {
+          const seedJson = await localSeed.json();
+          if (Array.isArray(seedJson.tasks)) initialTasks = seedJson.tasks.map(normalizeTask);
+        }
+      } catch (_) {}
+      const initDb = {schema_version: 1, updated_at: nowIso(), updated_by: state.user?.display_name || 'Sistema', tasks: initialTasks};
+      const putUrl = `https://api.github.com/repos/${state.repo}/contents/${encodePath(CFG.dataPath)}`;
+      const created = await ghFetch(putUrl, {
+        method: 'PUT',
+        body: {
+          message: `[OxEye] Inicializar ${CFG.dataPath}`,
+          content: utf8ToBase64(JSON.stringify(initDb, null, 2) + '\n'),
+          branch: state.branch
+        }
+      });
+      state.sha = created.data.content.sha;
+      state.etag = '';
+      state.db = initDb;
+      state.tasks = initDb.tasks;
+      state.lastSync = new Date();
+      return {changed: true};
+    }
+    throw err;
+  }
+}
+
+async function saveDbToGitHub(nextDb, commitMessage) {
+  if (state.saving) throw new Error('Ya hay un guardado en curso. Espera un segundo.');
+  state.saving = true;
+  try {
+    nextDb.updated_at = nowIso();
+    nextDb.updated_by = state.user.display_name;
+    const url = `https://api.github.com/repos/${state.repo}/contents/${encodePath(CFG.dataPath)}`;
+    const body = {
+      message: commitMessage,
+      content: utf8ToBase64(JSON.stringify(nextDb, null, 2) + '\n'),
+      branch: state.branch
+    };
+    if (state.sha) body.sha = state.sha;
+    const res = await ghFetch(url, {method: 'PUT', body});
+    state.sha = res.data.content.sha;
+    state.etag = '';
+    state.db = nextDb;
+    state.tasks = nextDb.tasks;
+    state.lastSync = new Date();
+    setConnection(true);
+    return nextDb;
+  } finally {
+    state.saving = false;
+  }
+}
+
+async function uploadAttachmentToGitHub(storageName, file) {
+  const buf = await file.arrayBuffer();
+  const content = bytesToBase64(new Uint8Array(buf));
+  const path = `${CFG.attachmentsDir}/${storageName}`;
+  const url = `https://api.github.com/repos/${state.repo}/contents/${encodePath(path)}`;
+  await ghFetch(url, {
+    method: 'PUT',
+    body: {
+      message: `[${state.user.display_name}] Adjunto: ${file.name}`,
+      content,
+      branch: state.branch
+    }
+  });
+}
+
+function addAudit(task, action, detail = '') {
+  task.activity = Array.isArray(task.activity) ? task.activity : [];
+  task.activity.unshift({
+    actor: state.user.display_name,
+    action,
+    detail: String(detail || '').slice(0, 600),
+    created_at: nowIso()
+  });
+  if (task.activity.length > 40) task.activity.length = 40;
+}
+
+function cloneDb() {
+  return JSON.parse(JSON.stringify(state.db || {schema_version: 1, tasks: []}));
+}
+
+/* ==================== Auth & Session ==================== */
+function saveSession() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    token: state.token,
+    repo: state.repo,
+    branch: state.branch,
+    role: state.user?.role || 'desarrollo',
+    displayName: state.user?.display_name || ''
+  }));
+}
+
+function loadSavedSession() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); }
+  catch (_) { return null; }
+}
+
+function resolveUser(ghUser, savedRole, savedDisplayName) {
+  const login = (ghUser.login || '').toLowerCase();
+  const mapped = CFG.members?.[login] || {};
+  const role = ['admin','desarrollo','revision'].includes(savedRole)
+    ? savedRole
+    : (mapped.role || 'desarrollo');
+  const display_name = (savedDisplayName || mapped.display_name || ghUser.name || ghUser.login || 'Equipo').trim();
+  return {
+    login: ghUser.login,
+    display_name,
+    role,
+    avatar_url: ghUser.avatar_url || ''
+  };
+}
+
+function showApp(user) {
+  state.user = user;
+  $('login').classList.add('hidden');
+  $('app').classList.remove('hidden');
+  $('currentName').textContent = user.display_name;
+  $('currentRole').textContent = labelRole[user.role] || user.role;
+  if (user.avatar_url) {
+    $('avatar').innerHTML = `<img src="${esc(user.avatar_url)}" alt="${esc(user.display_name)}">`;
+  } else {
+    $('avatar').textContent = user.display_name.slice(0, 2).toUpperCase();
+  }
+}
+
+function setConnection(yes, customText) {
+  state.online = yes;
+  $('connectionDot').className = 'dot ' + (yes ? 'live' : 'off');
+  $('connectionText').textContent = customText || (yes ? 'Conectado a GitHub · compartido' : 'Sin conexión con GitHub');
+  const t = state.lastSync ? new Intl.DateTimeFormat('es-ES', {hour:'2-digit', minute:'2-digit', second:'2-digit'}).format(state.lastSync) : '—';
+  $('connectionMeta').textContent = `${state.repo || '—'} (${state.branch}) · Última sync: ${t}`;
+}
+
+async function connectWithCredentials({repo, branch, token, role, displayName}) {
+  const cleanRepo = repo.trim().replace(/^https?:\/\/github\.com\//i, '').replace(/\.git$/i, '').replace(/^\/|\/$/g, '');
+  if (!/^[^/\s]+\/[^/\s]+$/.test(cleanRepo)) {
+    throw new Error('Escribe el repositorio en formato usuario/nombre-repo.');
+  }
+  state.repo = cleanRepo;
+  state.branch = (branch || CFG.branch || 'main').trim();
+  state.token = token.trim();
+
+  const meRes = await ghFetch('https://api.github.com/user');
+  const user = resolveUser(meRes.data, role, displayName);
+  state.user = user;
+  await fetchDbFromGitHub(true);
+  saveSession();
+  showApp(user);
+  setConnection(true);
+  render();
+}
+
+async function onLoginSubmit(e) {
+  e?.preventDefault();
+  const msg = $('loginError');
+  msg.style.display = 'none';
+  const btn = $('loginSubmit');
+  btn.disabled = true;
+  btn.textContent = 'Conectando…';
+  try {
+    await connectWithCredentials({
+      repo: $('loginRepo').value,
+      branch: $('loginBranch').value,
+      token: $('loginToken').value,
+      role: $('loginRole').value
+    });
+    toast('Conectado al espacio compartido en GitHub.');
+  } catch (err) {
+    msg.textContent = err.message;
+    msg.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Conectar con GitHub →';
+  }
+}
+
+async function bootstrap() {
+  const detected = detectRepo();
+  const saved = loadSavedSession();
+  $('loginRepo').value = saved?.repo || detected || '';
+  $('loginBranch').value = saved?.branch || CFG.branch || 'main';
+  if (saved?.role) $('loginRole').value = saved.role;
+
+  if (saved?.token && saved?.repo) {
+    try {
+      await connectWithCredentials(saved);
+    } catch (err) {
+      $('loginToken').value = '';
+      $('loginError').textContent = 'Sesión anterior no válida: ' + err.message;
+      $('loginError').style.display = 'block';
+    }
+  }
+}
+
+/* ==================== Polling & Sync ==================== */
+async function refresh(force = false, notify = false) {
+  if (!state.token || !state.user || state.polling || state.saving) return;
+  state.polling = true;
+  const prevSha = state.sha;
+  try {
+    const {changed} = await fetchDbFromGitHub(force);
+    setConnection(true);
+    if (changed) {
+      render();
+      if (state.selected) {
+        const chosen = state.tasks.find(t => t.id === state.selected);
+        if (!chosen) closeDetail(true);
+        else if (!state.dirty && state.selectedFull?.version !== chosen.version) {
+          openDetail(state.selected, true);
+        } else if (state.dirty && state.selectedFull?.version !== chosen.version) {
+          $('conflictbar').style.display = 'flex';
+        }
+      }
+      if (notify) toast(prevSha && prevSha !== state.sha ? 'Cambios nuevos cargados desde GitHub.' : 'Todo actualizado.');
+    } else if (notify) {
+      toast('Todo está al día.');
+    }
+  } catch (err) {
+    setConnection(false);
+    if (notify) toast(err.message, true);
+  } finally {
+    state.polling = false;
+  }
+}
+
+/* ==================== Rendering ==================== */
+function go(page) {
+  state.page = page;
+  document.querySelectorAll('[data-page]').forEach(el => el.classList.toggle('active', el.dataset.page === page));
+  render();
+}
+
+function render() {
+  const count = s => state.tasks.filter(t => t.status === s).length;
+  $('navOpenN').textContent = count('open');
+  $('navReviewN').textContent = count('review');
+  $('navHistoryN').textContent = count('history');
+  $('statOpen').textContent = count('open');
+  $('statReview').textContent = count('review');
+  $('statHistory').textContent = count('history');
+  const ratings = state.tasks.filter(t => t.status === 'open' && t.frustration !== null).map(t => t.frustration);
+  $('statPain').textContent = ratings.length ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1).replace('.', ',') : '—';
+
+  const titles = {
+    open: ['Lista de trabajo', 'Lo que debemos construir, mejorar o corregir.', 'Tareas activas', 'Notas abiertas y pendientes de desarrollo.'],
+    review: ['Pendiente de revisión', 'El equipo ha terminado su parte. Ahora toca comprobarla.', 'Entregas por comprobar', 'Una tarea no se cierra hasta que revisemos el resultado.'],
+    history: ['Historial de cambios', 'Trabajo revisado y aceptado. Conservamos quién hizo qué.', 'Cambios validados', 'Registro histórico, siempre recuperable.']
+  };
+  const x = titles[state.page];
+  $('pageTitle').textContent = x[0];
+  $('pageSubtitle').textContent = x[1];
+  $('listTitle').textContent = x[2];
+  $('listSubtitle').textContent = x[3];
+  renderRows();
+}
+
+function scoreHtml(v) {
+  return v === null || v === undefined ? '<span class="muted">—</span>' : `<span class="rating"><strong>${v}</strong><span>/10</span></span>`;
+}
+
+function checkButtonHtml(t) {
+  if (t.status === 'open') {
+    return `<button type="button" class="checkbtn" data-quick="${esc(t.id)}" title="Ticar como terminada → Por revisar" aria-label="Marcar como terminada">✓</button>`;
+  }
+  if (t.status === 'review') {
+    return `<button type="button" class="checkbtn review" data-quick="${esc(t.id)}" title="Validar y pasar a Historial" aria-label="Validar tarea">✓</button>`;
+  }
+  return `<button type="button" class="checkbtn history" data-quick="${esc(t.id)}" title="Validada · pulsa para reabrir" aria-label="Reabrir tarea">✓</button>`;
+}
+
+function renderRows() {
+  const q = $('search').value.toLowerCase().trim();
+  const typ = $('typeFilter').value;
+  const sort = $('sort').value;
+  const rows = state.tasks.filter(t =>
+    t.status === state.page &&
+    (typ === 'all' || t.type === typ) &&
+    (!q || [t.id, t.title, t.description, t.why, t.owner, t.chapter, t.priority, t.dev_response].join(' ').toLowerCase().includes(q))
+  );
+  rows.sort((a, b) =>
+    sort === 'pain' ? (b.frustration || 0) - (a.frustration || 0) :
+    sort === 'difficulty' ? Math.max(b.dev_effort || 0, b.author_effort || 0) - Math.max(a.dev_effort || 0, a.author_effort || 0) :
+    sort === 'recent' ? b.updated_at.localeCompare(a.updated_at) :
+    ({P0:0, P1:1, P2:2}[a.priority] - {P0:0, P1:1, P2:2}[b.priority]) || b.updated_at.localeCompare(a.updated_at)
+  );
+  $('shownCount').textContent = `${rows.length} ${rows.length === 1 ? 'tarea' : 'tareas'}`;
+  $('noTasks').classList.toggle('hidden', !!rows.length);
+  $('taskRows').innerHTML = rows.map(t => `
+    <tr data-id="${esc(t.id)}">
+      <td class="checkcell">${checkButtonHtml(t)}</td>
+      <td><span class="tag ${esc(t.type)}">${t.type === 'fix' ? 'FIX' : 'FEATURE'}</span></td>
+      <td class="taskcell">
+        <div class="tasktitle">${esc(t.title)}</div>
+        <div class="taskmeta">${esc(t.id)} · ${esc(t.phase || t.chapter || 'Sin fase')} · ${esc(fmtDate(t.updated_at))}${t.comments?.length ? ` · 💬 ${t.comments.length}` : ''}</div>
+      </td>
+      <td><span class="priority ${esc(t.priority)}"><b></b>${esc(t.priority)}</span></td>
+      <td>${scoreHtml(t.frustration)}</td>
+      <td>${scoreHtml(t.author_effort)}</td>
+      <td>${scoreHtml(t.dev_effort)}</td>
+      <td>${esc(t.owner || 'Sin asignar')}</td>
+      <td>${t.attachments?.length ? `<span class="mono">⌁ ${t.attachments.length}</span>` : '—'}</td>
+    </tr>`).join('');
+
+  $('taskRows').querySelectorAll('tr[data-id]').forEach(tr => {
+    tr.addEventListener('click', () => openDetail(tr.dataset.id));
+  });
+  $('taskRows').querySelectorAll('[data-quick]').forEach(btn => {
+    btn.addEventListener('click', async e => {
+      e.stopPropagation();
+      await quickTickTask(btn.dataset.quick, btn);
+    });
+  });
+}
+
+/* ==================== Quick Tick & Transitions ==================== */
+async function quickTickTask(taskId, btnEl) {
+  const t = state.tasks.find(x => x.id === taskId);
+  if (!t) return;
+  let target = 'review';
+  if (t.status === 'open') {
+    target = 'review';
+  } else if (t.status === 'review') {
+    if (!['admin', 'revision'].includes(state.user.role)) {
+      toast('Para validar al historial necesitas rol Dirección o Revisión (cámbialo en ···).', true);
+      return;
+    }
+    target = 'history';
+  } else {
+    if (!confirm(`¿Reabrir "${t.title}" y devolverla a Trabajo?`)) return;
+    target = 'open';
+  }
+  if (btnEl) btnEl.disabled = true;
+  try {
+    await executeTransition(taskId, target, t.version);
+  } finally {
+    if (btnEl) btnEl.disabled = false;
+  }
+}
+
+async function executeTransition(taskId, target, expectedVersion) {
+  const db = cloneDb();
+  const task = db.tasks.find(x => x.id === taskId);
+  if (!task) { toast('Tarea no encontrada.', true); return null; }
+  if (expectedVersion !== undefined && task.version !== expectedVersion) {
+    toast('Esta tarea ha cambiado. Sincronizando…', true);
+    await refresh(true);
+    return null;
+  }
+  const prev = task.status;
+  task.status = target;
+  task.version = (task.version || 1) + 1;
+  task.updated_at = nowIso();
+  task.updated_by = state.user.display_name;
+  task.reviewed_by = target === 'history' ? state.user.display_name : null;
+  task.reviewed_at = target === 'history' ? nowIso() : null;
+  const actionMap = {review:'enviado-a-revision', open:'devuelto-a-trabajo', history:'revision-aprobada'};
+  addAudit(task, actionMap[target], `De ${prev} a ${target}`);
+
+  const commitVerb = target === 'review' ? 'enviada a revisión' : target === 'history' ? 'validada en historial' : 'reabierta a trabajo';
+  try {
+    await saveDbToGitHub(db, `[${state.user.display_name}] ${task.id} ${commitVerb}`);
+    render();
+    if (state.selected === taskId) {
+      state.selectedFull = state.tasks.find(x => x.id === taskId) || null;
+      if (state.selectedFull) {
+        state.form = {...state.selectedFull};
+        state.dirty = false;
+        renderDetail();
+      }
+    }
+    toast(target === 'review' ? `${task.id} ticada → Por revisar.` : target === 'history' ? `${task.id} validada en Historial.` : `${task.id} devuelta a Trabajo.`);
+    return task;
+  } catch (err) {
+    if (err.status === 409 || err.status === 422) {
+      toast('Conflicto: otro miembro guardó antes. Actualizando datos…', true);
+      await refresh(true);
+    } else {
+      toast(err.message, true);
+    }
+    return null;
+  }
+}
+
+/* ==================== Detail Drawer ==================== */
+function ratingButtons(field, value) {
+  return `<div class="scoregroup" data-score="${field}">${Array.from({length: 10}, (_, i) =>
+    `<button type="button" class="scorebtn ${Number(value) === i + 1 ? 'active' : ''}" data-value="${i + 1}" aria-label="${i + 1} de 10">${i + 1}</button>`
+  ).join('')}</div>`;
+}
+
+function wireScores(container, object) {
+  container.querySelectorAll('[data-score]').forEach(g => {
+    g.querySelectorAll('button').forEach(b => b.onclick = () => {
+      object[g.dataset.score] = Number(b.dataset.value);
+      g.querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b));
+      if (object === state.form) state.dirty = true;
+    });
+  });
+}
+
+function openDetail(id, refreshing = false) {
+  if (state.dirty && !refreshing && id !== state.selected) {
+    if (!confirm('Hay cambios sin guardar. ¿Cerrar igualmente?')) return;
+  }
+  const task = state.tasks.find(t => t.id === id);
+  if (!task) return;
+  state.selected = id;
+  state.selectedFull = JSON.parse(JSON.stringify(task));
+  state.form = JSON.parse(JSON.stringify(task));
+  state.dirty = false;
+  $('conflictbar').style.display = 'none';
+  renderDetail();
+  $('detailLayer').classList.remove('hidden');
+}
+
+function closeDetail(force = false) {
+  if (!force && state.dirty && !confirm('Tienes cambios sin guardar. ¿Salir sin guardarlos?')) return;
+  state.selected = null;
+  state.selectedFull = null;
+  state.dirty = false;
+  $('detailLayer').classList.add('hidden');
+  $('conflictbar').style.display = 'none';
+}
+
+function renderDetail() {
+  const t = state.selectedFull, f = state.form;
+  if (!t) return;
+  $('drawerCode').textContent = t.id;
+  $('drawerStage').textContent = labelStatus[t.status];
+  $('drawerStage').className = 'tag ' + (t.status === 'history' ? 'feature' : '');
+  $('drawerTitle').textContent = t.title;
+  $('drawerMeta').textContent = `${t.created_by} · Actualizada por ${t.updated_by}, ${fmtDate(t.updated_at)} · Versión ${t.version}`;
+
+  const html = `
+    <div class="fields">
+      <div><label class="field-label">Tipo de nota</label><select class="field" data-field="type"><option value="feature" ${f.type === 'feature' ? 'selected' : ''}>FEATURE · Nueva capacidad</option><option value="fix" ${f.type === 'fix' ? 'selected' : ''}>FIX · Corregir problema</option></select></div>
+      <div><label class="field-label">Prioridad</label><select class="field" data-field="priority"><option value="P0" ${f.priority === 'P0' ? 'selected' : ''}>P0 · Urgente</option><option value="P1" ${f.priority === 'P1' ? 'selected' : ''}>P1 · Normal</option><option value="P2" ${f.priority === 'P2' ? 'selected' : ''}>P2 · Puede esperar</option></select></div>
+      <div class="span2"><label class="field-label">Título</label><input class="field" data-field="title" value="${esc(f.title)}"></div>
+      <div class="span2"><label class="field-label">Qué necesitamos hacer</label><textarea class="field" rows="5" data-field="description">${esc(f.description)}</textarea></div>
+      <div class="span2"><label class="field-label">Por qué importa / qué está fallando</label><textarea class="field" rows="3" data-field="why">${esc(f.why)}</textarea></div>
+      <div class="span2"><label class="field-label">Cómo comprobamos que está resuelto</label><textarea class="field" rows="3" data-field="acceptance">${esc(f.acceptance)}</textarea></div>
+      <div><label class="field-label">Responsable</label><input class="field" data-field="owner" value="${esc(f.owner)}" placeholder="Fabián, Frontend…"></div>
+      <div><label class="field-label">Depende de</label><input class="field" data-field="depends" value="${esc(f.depends)}" placeholder="OX-02, OX-05…"></div>
+      <div><label class="field-label">Fase</label><input class="field" data-field="phase" value="${esc(f.phase)}" placeholder="01 · Núcleo"></div>
+      <div><label class="field-label">Capítulos de origen</label><input class="field" data-field="chapter" value="${esc(f.chapter)}" placeholder="02 / 24"></div>
+    </div>
+    <div class="sect">
+      <div class="secttitle">Valoraciones <span>Independientes · escala 1 a 10</span></div>
+      <label class="field-label">01 · Cuánto me molesta este problema</label>${ratingButtons('frustration', f.frustration)}
+      <p class="field-help">1 = apenas molesta · 10 = me bloquea o resulta insoportable.</p>
+      <div style="height:15px"></div>
+      <label class="field-label">02 · Cuánto creo yo que cuesta resolverlo</label>${ratingButtons('author_effort', f.author_effort)}
+      <p class="field-help">Tu primera estimación, antes de que el programador la revise.</p>
+      <div style="height:15px"></div>
+      <div class="answer">
+        <label class="field-label">03 · Cuánto calcula el programador que costará</label>${ratingButtons('dev_effort', f.dev_effort)}
+        <p class="field-help">Valor independiente. No modifica tu valoración original.</p>
+        <textarea class="field" style="margin-top:9px" data-field="dev_response" rows="3" placeholder="Respuesta técnica: qué implica, posibles bloqueos, qué necesita…">${esc(f.dev_response)}</textarea>
+      </div>
+    </div>
+    <div class="sect">
+      <div class="secttitle">Archivos compartidos <span>${t.attachments.length} adjunto(s)</span></div>
+      <div class="attachments">
+        ${t.attachments.map(a => `<div class="fileitem"><div style="min-width:0"><strong>${esc(a.original_name)}</strong><small>${esc(a.uploaded_by)} · ${Math.max(1, Math.round(a.size / 1024))} KB · ${esc(fmtDate(a.created_at))}</small></div><button class="btn btn-sm" data-download="${esc(a.id)}">↓ Abrir</button></div>`).join('') || '<div class="small muted">No hay archivos adjuntos.</div>'}
+      </div>
+      <label class="dropzone" id="uploadLabel" for="fileInput"><strong>＋ Adjuntar archivo del ordenador</strong><div class="small">PDF, imágenes, TXT, ZIP, modelos técnicos · 5 MB máximo en GitHub.</div></label>
+      <input type="file" id="fileInput" hidden>
+    </div>
+    <div class="sect">
+      <div class="secttitle">Conversación del equipo <span>${t.comments.length} respuestas</span></div>
+      ${t.comments.map(c => `<div class="comment"><div class="commenthead"><b>${esc(c.author)}</b><span>${esc(fmtDate(c.created_at))}</span></div><div class="commentbody">${esc(c.body)}</div></div>`).join('') || '<div class="muted small">Todavía no hay respuestas.</div>'}
+      <textarea class="field" id="commentText" style="margin-top:14px;min-height:72px" placeholder="Preguntar, responder, explicar un impedimento…"></textarea>
+      <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn btn-sm" id="sendComment">Publicar respuesta</button></div>
+    </div>
+    <div class="sect">
+      <div class="secttitle">Actividad <span>Registro de cambios</span></div>
+      ${t.activity.map(a => `<div class="activity"><b>${esc(a.actor)} · ${esc(a.action)}</b>${esc(a.detail || '')}<small>${esc(fmtDate(a.created_at))}</small></div>`).join('') || '<div class="small muted">Sin actividad registrada todavía.</div>'}
+    </div>`;
+
+  $('drawerBody').innerHTML = html;
+  $('drawerBody').querySelectorAll('[data-field]').forEach(el => {
+    el.addEventListener('input', () => { state.form[el.dataset.field] = el.value; state.dirty = true; });
+  });
+  wireScores($('drawerBody'), state.form);
+  $('drawerBody').querySelectorAll('[data-download]').forEach(b => b.onclick = () => downloadAttachment(b.dataset.download));
+  $('fileInput').addEventListener('change', async e => { if (e.target.files[0]) await uploadFile(e.target.files[0]); e.target.value = ''; });
+  $('sendComment').onclick = sendComment;
+
+  let actions = `<button class="btn" id="saveTask">Guardar cambios</button>`;
+  if (t.status === 'open') actions += `<button class="btn btn-primary" id="moveNext">Trabajo terminado → Revisión</button>`;
+  else if (t.status === 'review') actions += `<button class="btn" id="moveBack">↶ Devolver</button><button class="btn btn-violet" id="moveNext">✓ Validar y pasar a historial</button>`;
+  else actions += `<button class="btn" id="moveBack">↶ Reabrir tarea</button><span class="micro" style="margin-left:auto;color:#4b8266">Validado por ${esc(t.reviewed_by || 'equipo')}</span>`;
+  $('drawerBottom').innerHTML = actions;
+
+  $('saveTask').onclick = saveTask;
+  const next = $('moveNext');
+  if (next) next.onclick = () => transitionFromDrawer(t.status === 'open' ? 'review' : 'history');
+  const back = $('moveBack');
+  if (back) back.onclick = () => transitionFromDrawer('open');
+}
+
+async function saveTask() {
+  if (!state.selected) return;
+  const f = state.form;
+  const title = String(f.title || '').trim();
+  if (title.length < 3 || title.length > 160) { toast('El título debe tener entre 3 y 160 caracteres.', true); return; }
+
+  const db = cloneDb();
+  const task = db.tasks.find(x => x.id === state.selected);
+  if (!task) { toast('La tarea ya no existe.', true); return; }
+  if (task.version !== state.selectedFull.version) {
+    $('conflictbar').style.display = 'flex';
+    toast('Otro miembro modificó esta tarea. Copia tus cambios y actualiza la ficha.', true);
+    return;
+  }
+
+  const fields = ['type','title','description','why','acceptance','depends','chapter','phase','priority','owner','frustration','author_effort','dev_effort','dev_response'];
+  const changed = [];
+  for (const k of fields) {
+    let val = f[k];
+    if (['frustration','author_effort','dev_effort'].includes(k)) {
+      val = (val === null || val === undefined || val === '') ? null : Number(val);
+    } else {
+      val = String(val ?? '');
+    }
+    if (task[k] !== val) { changed.push(k); task[k] = val; }
+  }
+  task.version = (task.version || 1) + 1;
+  task.updated_at = nowIso();
+  task.updated_by = state.user.display_name;
+  addAudit(task, 'tarea-editada', changed.join(', ') || 'sin cambios');
+
+  const btn = $('saveTask');
+  btn.disabled = true;
+  try {
+    await saveDbToGitHub(db, `[${state.user.display_name}] Editar ${task.id}: ${task.title.slice(0, 50)}`);
+    state.dirty = false;
+    state.selectedFull = JSON.parse(JSON.stringify(task));
+    state.form = JSON.parse(JSON.stringify(task));
+    render();
+    renderDetail();
+    toast('Cambios guardados en GitHub y compartidos con el equipo.');
+  } catch (err) {
+    if (err.status === 409 || err.status === 422) {
+      $('conflictbar').style.display = 'flex';
+      toast('Conflicto: alguien editó el archivo antes. Copia tus cambios y actualiza.', true);
+    } else {
+      toast(err.message, true);
+    }
+  } finally {
+    if ($('saveTask')) $('saveTask').disabled = false;
+  }
+}
+
+async function transitionFromDrawer(target) {
+  if (state.dirty) { toast('Guarda tus cambios antes de mover la tarea.', true); return; }
+  if (target === 'history') {
+    if (!['admin', 'revision'].includes(state.user.role)) {
+      toast('La validación final requiere rol Dirección o Revisión (puedes cambiarlo en ···).', true);
+      return;
+    }
+    if (!confirm('¿Has revisado el resultado? Se añadirá al historial de cambios.')) return;
+  }
+  await executeTransition(state.selected, target, state.selectedFull.version);
+}
+
+async function uploadFile(file) {
+  if (state.dirty) { toast('Guarda primero los cambios de la ficha antes de adjuntar archivos.', true); return; }
+  const dotIdx = file.name.lastIndexOf('.');
+  const ext = dotIdx >= 0 ? file.name.slice(dotIdx).toLowerCase() : '';
+  if (!ALLOWED_EXT.has(ext)) { toast('Extensión no admitida.', true); return; }
+  if (!file.size || file.size > MAX_FILE_BYTES) { toast('El archivo está vacío o supera el límite de 5 MB.', true); return; }
+
+  const label = $('uploadLabel');
+  if (label) label.innerHTML = '<strong>Subiendo archivo a GitHub…</strong>';
+  try {
+    const fid = uid(12);
+    const storageName = `${state.selected}_${fid}${ext}`;
+    await uploadAttachmentToGitHub(storageName, file);
+
+    const db = cloneDb();
+    const task = db.tasks.find(x => x.id === state.selected);
+    if (!task) throw new Error('Tarea no encontrada.');
+    task.attachments = task.attachments || [];
+    task.attachments.unshift({
+      id: fid,
+      original_name: file.name.slice(0, 180),
+      storage_name: storageName,
+      mime: file.type || 'application/octet-stream',
+      size: file.size,
+      uploaded_by: state.user.display_name,
+      created_at: nowIso()
+    });
+    task.version = (task.version || 1) + 1;
+    task.updated_at = nowIso();
+    task.updated_by = state.user.display_name;
+    addAudit(task, 'adjunto-subido', file.name);
+    await saveDbToGitHub(db, `[${state.user.display_name}] Adjunto en ${task.id}: ${file.name}`);
+
+    state.selectedFull = JSON.parse(JSON.stringify(task));
+    state.form = JSON.parse(JSON.stringify(task));
+    render();
+    renderDetail();
+    toast('Archivo subido al repositorio. Ya está disponible para tu equipo.');
+  } catch (err) {
+    renderDetail();
+    toast(err.message, true);
+  }
+}
+
+async function downloadAttachment(fid) {
+  const att = state.selectedFull?.attachments?.find(a => a.id === fid);
+  if (!att) return;
+  try {
+    const path = `${CFG.attachmentsDir}/${att.storage_name}`;
+    const url = `https://api.github.com/repos/${state.repo}/contents/${encodePath(path)}?ref=${encodeURIComponent(state.branch)}`;
+    const res = await ghFetch(url, {raw: true});
+    const objUrl = URL.createObjectURL(res.blob);
+    const a = document.createElement('a');
+    a.href = objUrl;
+    a.download = att.original_name || 'archivo';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(objUrl), 1500);
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
+async function sendComment() {
+  const body = $('commentText').value.trim();
+  if (!body) { toast('Escribe una respuesta.', true); return; }
+  if (state.dirty) { toast('Guarda los cambios en la ficha antes de responder.', true); return; }
+
+  const db = cloneDb();
+  const task = db.tasks.find(x => x.id === state.selected);
+  if (!task) return;
+  task.comments = task.comments || [];
+  task.comments.push({
+    id: uid(12),
+    task_id: task.id,
+    author: state.user.display_name,
+    body: body.slice(0, 5000),
+    created_at: nowIso()
+  });
+  task.version = (task.version || 1) + 1;
+  task.updated_at = nowIso();
+  task.updated_by = state.user.display_name;
+  addAudit(task, 'comentario', body.slice(0, 140));
+
+  $('sendComment').disabled = true;
+  try {
+    await saveDbToGitHub(db, `[${state.user.display_name}] Comentario en ${task.id}`);
+    state.selectedFull = JSON.parse(JSON.stringify(task));
+    state.form = JSON.parse(JSON.stringify(task));
+    render();
+    renderDetail();
+    toast('Respuesta publicada para todo el equipo.');
+  } catch (err) {
+    if (err.status === 409 || err.status === 422) {
+      toast('Hubo cambios simultáneos. Sincronizando…', true);
+      await refresh(true);
+    } else {
+      toast(err.message, true);
+    }
+  } finally {
+    if ($('sendComment')) $('sendComment').disabled = false;
+  }
+}
+
+/* ==================== Export & Copy TXT ==================== */
+function taskTxt(t) {
+  return `OXEYE · ${t.id}\n${t.type.toUpperCase()} · ${t.title}\nESTADO: ${labelStatus[t.status]} · PRIORIDAD: ${t.priority}\nRESPONSABLE: ${t.owner || 'Sin asignar'}\nORIGEN: ${t.chapter || 'No especificado'}\nDEPENDENCIAS: ${t.depends || 'Ninguna indicada'}\n\nQUÉ NECESITAMOS HACER\n${t.description || 'Sin descripción'}\n\nPOR QUÉ IMPORTA\n${t.why || '—'}\n\nCÓMO COMPROBAR QUE FUNCIONA\n${t.acceptance || 'Pendiente de definir'}\n\nVALORACIONES 1–10\nMolestia de dirección: ${t.frustration ?? 'Pendiente'}\nDificultad prevista por dirección: ${t.author_effort ?? 'Pendiente'}\nDificultad valorada por desarrollo: ${t.dev_effort ?? 'Pendiente'}\n\nRESPUESTA DEL PROGRAMADOR\n${t.dev_response || 'Pendiente'}\n\nVersión ${t.version} · Última actualización ${t.updated_at}`;
+}
+
+async function copyTxt() {
+  const t = state.selectedFull;
+  if (!t) return;
+  try {
+    await navigator.clipboard.writeText(taskTxt(t));
+    toast('Ficha TXT copiada.');
+  } catch (_) {
+    const box = document.createElement('textarea');
+    box.value = taskTxt(t);
+    document.body.appendChild(box);
+    box.select();
+    document.execCommand('copy');
+    box.remove();
+    toast('Ficha copiada.');
+  }
+}
+
+function exportData() {
+  const payload = {
+    exported_at: nowIso(),
+    repo: state.repo,
+    branch: state.branch,
+    tasks: state.tasks
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type: 'application/json;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'OXEYE_trabajo_compartido_' + new Date().toISOString().slice(0, 10) + '.json';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  toast('Copia JSON descargada.');
+}
+
+/* ==================== Modals (New Task & Account) ==================== */
+function openModal(type) {
+  state.modal = type;
+  $('modalLayer').classList.remove('hidden');
+  const c = $('modalBody'), f = $('modalFooter'), t = $('modalTitle'), d = $('modalDesc'), ey = $('modalEyebrow');
+
+  if (type === 'new') {
+    ey.textContent = 'Nuevo / OxEye';
+    t.textContent = 'Crear nota de trabajo';
+    d.textContent = 'Feature o fix, impacto, estimación y explicación clara.';
+    c.innerHTML = `
+      <div class="formgrid">
+        <div><label class="field-label">Tipo</label><select id="nType" class="field"><option value="feature">FEATURE · Nueva función</option><option value="fix">FIX · Corregir error</option></select></div>
+        <div><label class="field-label">Prioridad</label><select id="nPriority" class="field"><option value="P0">P0 · Urgente</option><option value="P1" selected>P1 · Normal</option><option value="P2">P2 · Más adelante</option></select></div>
+        <div class="span2"><label class="field-label">Título corto</label><input class="field" id="nTitle" placeholder="Ej.: Detectar carpas reservadas en otro evento"></div>
+        <div class="span2"><label class="field-label">Qué debe cambiar</label><textarea class="field" rows="4" id="nDesc" placeholder="Explica qué tiene que hacer el programa y qué ocurre ahora…"></textarea></div>
+        <div class="span2"><label class="field-label">Cómo sabremos que está resuelto</label><textarea class="field" rows="2" id="nAcceptance" placeholder="Ejemplo concreto que se pueda comprobar"></textarea></div>
+        <div><label class="field-label">Responsable</label><input class="field" id="nOwner" placeholder="Asignar persona"></div>
+        <div><label class="field-label">Depende de</label><input class="field" id="nDepends" placeholder="OX-01…"></div>
+        <div class="span2"><label class="field-label">01 · Cuánto me molesta (1–10)</label>${ratingButtons('frustration', null)}<div class="field-help">1 = poco · 10 = bloquea el trabajo (opcional)</div></div>
+        <div class="span2"><label class="field-label">02 · Cuánto creo yo que cuesta resolverlo (1–10)</label>${ratingButtons('author_effort', null)}<div class="field-help">El programador añadirá después su estimación independiente (opcional).</div></div>
+      </div>`;
+    const form = {};
+    wireScores(c, form);
+    f.innerHTML = `<button class="btn" id="cancelModal">Cancelar</button><button class="btn btn-primary" id="createTask">Crear y abrir nota</button>`;
+    $('cancelModal').onclick = closeModal;
+    $('createTask').onclick = async () => {
+      const title = $('nTitle').value.trim();
+      if (title.length < 3 || title.length > 160) { toast('Escribe un título de al menos 3 caracteres.', true); return; }
+      const newTask = normalizeTask({
+        id: 'OX-' + uid(6).toUpperCase(),
+        type: $('nType').value,
+        priority: $('nPriority').value,
+        title,
+        description: $('nDesc').value.trim(),
+        acceptance: $('nAcceptance').value.trim(),
+        owner: $('nOwner').value.trim(),
+        depends: $('nDepends').value.trim(),
+        frustration: form.frustration ?? null,
+        author_effort: form.author_effort ?? null,
+        status: 'open',
+        version: 1,
+        created_by: state.user.display_name,
+        updated_by: state.user.display_name,
+        created_at: nowIso(),
+        updated_at: nowIso(),
+        comments: [],
+        attachments: [],
+        activity: []
+      });
+      addAudit(newTask, 'tarea-creada', `${newTask.type}: ${newTask.title}`);
+      const db = cloneDb();
+      db.tasks.unshift(newTask);
+      $('createTask').disabled = true;
+      try {
+        await saveDbToGitHub(db, `[${state.user.display_name}] Nueva tarea ${newTask.id}: ${newTask.title.slice(0, 50)}`);
+        closeModal();
+        go('open');
+        openDetail(newTask.id);
+        toast('Nota creada y compartida en GitHub.');
+      } catch (err) {
+        if (err.status === 409 || err.status === 422) {
+          toast('Hubo otro cambio simultáneo. Sincroniza y vuelve a pulsar crear.', true);
+          await refresh(true);
+        } else {
+          toast(err.message, true);
+        }
+      } finally {
+        if ($('createTask')) $('createTask').disabled = false;
+      }
+    };
+    setTimeout(() => $('nTitle')?.focus(), 70);
+  } else if (type === 'account') {
+    ey.textContent = 'Conexión / GitHub';
+    t.textContent = 'Cuenta y repositorio';
+    d.textContent = 'Todo se guarda directamente en GitHub mediante tu token personal.';
+    c.innerHTML = `
+      <div class="note">
+        <b>Usuario GitHub:</b> @${esc(state.user?.login)}<br>
+        <b>Repositorio:</b> <span class="mono">${esc(state.repo)}</span> (rama <span class="mono">${esc(state.branch)}</span>)<br>
+        <b>Archivo de datos:</b> <span class="mono">${esc(CFG.dataPath)}</span>
+      </div>
+      <div class="sect">
+        <div class="secttitle">Tu perfil en esta pantalla</div>
+        <div class="formgrid">
+          <div><label class="field-label">Nombre visible</label><input class="field" id="accName" value="${esc(state.user?.display_name)}"></div>
+          <div><label class="field-label">Función</label>
+            <select class="field" id="accRole">
+              <option value="desarrollo" ${state.user?.role === 'desarrollo' ? 'selected' : ''}>Desarrollo</option>
+              <option value="admin" ${state.user?.role === 'admin' ? 'selected' : ''}>Dirección</option>
+              <option value="revision" ${state.user?.role === 'revision' ? 'selected' : ''}>Revisión</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn" style="margin-top:12px" id="saveProfileBtn">Guardar perfil</button>
+      </div>
+      <div class="sect">
+        <div class="secttitle">Compartir acceso con tu colega</div>
+        <div class="note">
+          Pásale la URL de esta GitHub Page. Tu colega solo tendrá que crear su propio <b>Fine-Grained Token</b> en GitHub con permiso <code>Contents: Read and write</code> sobre <b>${esc(state.repo)}</b> (invítale antes como colaborador del repositorio si aún no lo es).
+        </div>
+      </div>`;
+    f.innerHTML = `<button class="btn btn-danger" id="logoutBtn">Desconectar token</button><button class="btn btn-primary" id="closeAccount">Volver a tareas</button>`;
+    $('closeAccount').onclick = closeModal;
+    $('saveProfileBtn').onclick = () => {
+      const name = $('accName').value.trim();
+      const role = $('accRole').value;
+      if (name.length < 2) { toast('Escribe un nombre de al menos 2 caracteres.', true); return; }
+      state.user.display_name = name;
+      state.user.role = role;
+      saveSession();
+      showApp(state.user);
+      toast('Perfil actualizado.');
+      closeModal();
+    };
+    $('logoutBtn').onclick = () => {
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    };
+  }
+}
+
+function closeModal() {
+  $('modalLayer').classList.add('hidden');
+  state.modal = null;
+}
+
+/* ==================== Handlers & Events ==================== */
+$('loginForm').addEventListener('submit', onLoginSubmit);
+document.querySelectorAll('[data-page]').forEach(b => b.onclick = () => go(b.dataset.page));
+$('search').addEventListener('input', renderRows);
+$('typeFilter').addEventListener('change', renderRows);
+$('sort').addEventListener('change', renderRows);
+$('syncBtn').onclick = () => refresh(true, true);
+$('newBtn').onclick = () => openModal('new');
+$('profileBtn').onclick = () => openModal('account');
+$('closeModal').onclick = closeModal;
+$('modalBackdrop').onclick = closeModal;
+$('closeDetail').onclick = () => closeDetail(false);
+$('detailBackdrop').onclick = () => closeDetail(false);
+$('reloadDetailBtn').onclick = async () => { await refresh(true); if (state.selected) openDetail(state.selected, true); toast('Ficha actualizada con la última versión.'); };
+$('copyTxt').onclick = copyTxt;
+$('exportBtn').onclick = exportData;
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (!$('modalLayer').classList.contains('hidden')) closeModal();
+    else if (!$('detailLayer').classList.contains('hidden')) closeDetail(false);
+  }
+  if (e.key === 'k' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); $('search').focus(); }
+  if (e.key === 'n' && !e.ctrlKey && !e.metaKey && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName) && state.user && $('modalLayer').classList.contains('hidden')) {
+    openModal('new');
+  }
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && state.user) refresh(false);
+});
+window.addEventListener('focus', () => {
+  if (state.user) refresh(false);
+});
+
+bootstrap();
+setInterval(() => {
+  if (state.user && document.visibilityState === 'visible') refresh(false);
+}, CFG.pollMs);
+</script>
+</body>
+</html>
