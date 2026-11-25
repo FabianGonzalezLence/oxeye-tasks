@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:52:09+00:00",
+  "updated_at": "2026-11-25T10:52:20+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -465,22 +465,28 @@
       "phase": "02 · Preparar el evento",
       "priority": "P1",
       "owner": "Algoritmos",
-      "frustration": null,
-      "author_effort": null,
+      "frustration": 7,
+      "author_effort": 6,
       "dev_effort": null,
       "dev_response": "",
       "custom_txt": "# OX-10 · Camiones que llegan, aparcan, descargan y salen\n\n| Campo | Valor |\n|---|---|\n| Fase | 02 · Preparar el evento |\n| Tipo | Feature |\n| Punto de la reunión 24/11 | 10 · Planificar la llegada de camiones |\n| Nivel propuesto para el piloto | Ampliación prioritaria (logística detallada, [ESP] §20.11) sobre base del núcleo |\n| Depende de | OX-04, OX-05, OX-06, OX-07 |\n| Bloquea | OX-11, OX-22 (etapa 8) |\n| Hito de referencia | HITO-07 · Logística y personal ([ESP] §20.55) |\n| Rama sugerida | `feat/ox-10-entregas-camiones` |\n\n## Objetivo\n\nQue cada entrega tenga horario, acceso, zona de descarga, material y personal asignados, y que el sistema avise si coinciden demasiados vehículos en la misma zona, para evitar colas y bloqueos durante el montaje.\n\n## Contexto relevante\n\n**[Hecho]**\n- La simulación de jornada logística (`shift.ts`) ya anima camiones, carretillas, bultos y cuadrillas, con escalonamiento determinista de camiones y tolerancia multi-muelle.\n- Existen piezas de **carga/descarga poligonal (`loadingZone`)** y **maniobra poligonal (`turning`)**, accesos clasificados (`emergency_vehicle`, `mixed`, etc.), movilidad vehicular unificada (`vehicle-system.ts`) con perfiles `logistics` y red viaria OSM.\n- Hoy los camiones son de la **simulación**; no existe un plan de entregas reales con horarios confirmados.\n\n**[ESP]** (capítulo 11)\n- Operaciones de [ESP] §21.20: llegada, acceso, estacionamiento, descarga, transferencia, montaje, retirada, salida. **No hay un tiempo universal de descarga** (no usar «2 minutos para todos»).\n- `LOG-003`: una dirección postal no basta para describir un punto de descarga. `LOG-004`: una descarga solo es viable si la zona está disponible y el vehículo puede acceder. `LOG-005`: las zonas de montaje cuentan como ocupación espacial en su periodo. `LOG-006`: ahorrar tiempo no justifica saltarse condiciones de seguridad.\n- `VAL-LOG-01` a `VAL-LOG-12` y `VAL-LOG-THREE-001`: tres camiones, una zona con capacidad configurada, entradas parcialmente simultáneas; el sistema detecta la incompatibilidad y propone alternativa, no solo los dibuja superpuestos.\n- Hito propuesto del 2/12: observar en el montaje real la llegada de vehículos y las zonas de descarga para calibrar esta tarea.\n\n## Requisitos funcionales\n\n1. Entidad `Entrega` (u `OperaciónLogística`): vehículo (dimensiones, categoría), proveedor, material (unidades de OX-05), acceso de entrada, zona de descarga, franja horaria, duración estimada de descarga, personal de recepción y estado (*planificada*, *confirmada*, *en camino*, *llegada*, *descargando*, *completada*, *retrasada*, *cancelada*).\n2. Capacidad por zona de descarga (número de vehículos simultáneos) y comprobación de dimensiones frente al acceso.\n3. Detección de conflictos: exceso de vehículos simultáneos, acceso incompatible, zona ocupada por montaje en ese intervalo.\n4. Propuesta de reprogramación (desplazar franja, cambiar zona) que el usuario acepta o rechaza.\n5. Registrar llegada y salida reales; un retraso alimenta el calendario (OX-06) y muestra las actividades afectadas.\n6. Vista de mapa por franja horaria y vista de lista para el responsable logístico.\n7. Cada entrega añade o actualiza su partida de transporte (OX-07).\n\n## Requisitos no funcionales / restricciones\n\n- **No negociable:** una entrega nunca puede ocupar ni bloquear un acceso de emergencia, ni la ruta sanitaria A, durante la fase `event`. Si lo hace en `pre`/`post`, se muestra aviso.\n- **No negociable:** las cargas pesadas sobre zonas con subsuelo (Rayos X) activan el aviso estructural existente.\n- Las entregas reales y los camiones simulados se distinguen siempre (`INV-009`).\n\n## Criterios de aceptación\n\n- [ ] `VAL-LOG-THREE-001` pasa: tres camiones en una zona con capacidad 2 y entradas solapadas generan conflicto y propuesta alternativa.\n- [ ] Una entrega con vehículo más ancho que el acceso queda marcada como no viable con la causa.\n- [ ] Registrar un retraso de 45 min en una entrega marca como afectadas las actividades de montaje dependientes.\n- [ ] Una entrega que bloquea un acceso de emergencia durante `event` no se puede confirmar.\n\n## Pruebas / verificación\n\n- Unitarias de capacidad, solapamiento e intersección vehículo/acceso.\n- Regresión sobre las simulaciones logísticas actuales de `shift.ts`.\n- E2E: crear 3 entregas → detectar conflicto → reprogramar → guardar.\n\n## Riesgos y supuestos\n\n- **Riesgo:** duplicar el modelo de vehículo entre simulación y plan real. Usar un único modelo de vehículo con dos usos.\n- **Supuesto:** las duraciones de descarga son parámetros por tipo de vehículo y material, editables. Se calibrarán tras la visita del 2/12.\n",
       "status": "open",
-      "version": 2,
+      "version": 3,
       "created_by": "Importación original",
       "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T10:40:02+00:00",
+      "updated_at": "2026-11-25T10:52:20+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
       "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "frustration, author_effort",
+          "created_at": "2026-11-25T10:52:20+00:00"
+        },
         {
           "actor": "YELODESA",
           "action": "tarea-editada",
