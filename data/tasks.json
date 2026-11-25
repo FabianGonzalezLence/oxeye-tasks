@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T10:43:15+00:00",
+  "updated_at": "2026-11-25T10:48:25+00:00",
   "updated_by": "YELODESA",
   "tasks": [
     {
@@ -15,22 +15,28 @@
       "phase": "00 · Entender la base",
       "priority": "P0",
       "owner": "Fabián",
-      "frustration": 4,
-      "author_effort": null,
+      "frustration": 9,
+      "author_effort": 3,
       "dev_effort": null,
       "dev_response": "",
       "custom_txt": "# OX-01 · Auditar el OxEye actual\n\n| Campo | Valor |\n|---|---|\n| Fase | 00 · Entender la base |\n| Tipo | Feature (trabajo técnico de base) |\n| Punto de la reunión 24/11 | 01 · Revisar lo que ya tenemos |\n| Nivel propuesto para el piloto | Núcleo obligatorio (requisito previo de todo lo demás) |\n| Depende de | Ninguna |\n| Bloquea | Todas las demás tareas, en especial OX-02, OX-16 y OX-22 |\n| Hito de referencia | HITO-01 · Auditoría y estabilización ([ESP] §20.49) |\n| Rama sugerida | `fix/ox-01-estabilizar-base` (solo si la auditoría genera correcciones) |\n\n> Leyenda usada en todas las fichas: **[Hecho]** = comprobado en el repositorio o en los documentos del proyecto. **[ESP]** = requisito de la Especificación maestra v1.0 (propuesto, no implementado). **[Propuesta]** = sugerencia para esta tarea, a validar.\n\n## Objetivo\n\nObtener una fotografía fiable y reproducible del estado real de OxEye 0.16.0 para decidir qué se aprovecha, qué se corrige y qué falta. Ningún otro desarrollo debería empezar sobre supuestos: la regla de la especificación es que «no se asignará automáticamente el estado *implementado* por la existencia de un botón» ([ESP] §20.13).\n\n## Contexto relevante\n\n**[Hecho] Auditoría preliminar del 25/11/2026 sobre `main` (`6fd5f76`):**\n- `npm run lint`: 0 errores y 126 avisos (124 son directivas `eslint-disable` sin uso, corregibles automáticamente).\n- `tsc` y las 23 suites Vitest (117 tests) pasan. `npm run build` pasa, con un único bundle JS de 1,67 MB.\n- **E2E Playwright: 12 de 12 tests fallan.** Se atascan en el flujo inicial: `#game-continue` está deshabilitado sin proyecto previo y el selector `#smart-specific` ya no existe en `src`. La CI no ejecuta E2E, por eso no se detectó.\n- `tsconfig` con `strict: false` (activar `strict` + `noImplicitAny` da 48 errores), 189 usos de `any`, Prettier sin aplicar (143 de 162 archivos difieren).\n- Dos ciclos de importación (`event-engine → incident-center → emergency-lab` y `contextual-incidents ↔ response-model`) y fugas de dependencias `store → components` y `engine → store`.\n- `drizzle-orm` y `gts` figuran como dependencias pero no se usan. `playwright-report/` y `test-results/` están versionados en git.\n- **Incoherencia documental:** `02_ARQUITECTURA_Y_STACK.md` dice «TypeScript estricto» y cita `doc/claude/`, pero el `tsconfig` no es estricto y esa carpeta no existe.\n\n**[ESP]** El HITO-01 exige: inventario de código, arquitectura real, dependencias, problemas conocidos, instrucciones de instalación, versión ejecutable, pruebas básicas y clasificación de funciones.\n\n## Requisitos funcionales\n\n1. Clasificar **cada módulo** de `src/engine/` (63) y `src/components/` (42) con la escala de [ESP] §20.13: *Existente y verificado*, *Existente parcialmente*, *Prototipado*, *No implementado*, *Desconocido*.\n2. Construir la **matriz de brechas** de [ESP] §20.14 (Requisito, Estado objetivo, Estado actual, Brecha, Prioridad, Dependencia, Responsable, Prueba, Estado) para las capacidades que tocan las tareas OX-03 a OX-22.\n3. Documentar la **arquitectura real** (no la deseada): capas, dependencias entre dominios, dónde vive la persistencia hoy (`localStorage`, Dexie/IndexedDB, exportación JSON) y qué estado se guarda en cada sitio.\n4. Escribir **instrucciones de instalación y ejecución** que otra persona pueda seguir sin ayuda.\n5. Registrar los **problemas conocidos** con severidad, incluidos los del apartado de hechos.\n6. Reparar los tests E2E para que reflejen el flujo actual de primera ejecución (o marcarlos explícitamente como pendientes con motivo), sin desactivar ninguno para «poner verde».\n7. Proponer la corrección de la documentación base (`02_ARQUITECTURA_Y_STACK.md`, `README.md`, versión de `package.json`) para que diga la verdad.\n\n## Requisitos no funcionales / restricciones\n\n- La auditoría **no cambia comportamiento funcional**. Las correcciones de limpieza (Prettier, `eslint-disable` sin uso, `.gitignore`) van en commits separados y fáciles de revisar.\n- No se elimina ningún módulo de simulación ni de emergencias durante la auditoría, aunque parezca sin uso: primero se clasifica.\n- Las 5 restricciones no negociables (rutas sanitarias A/B/C, Carpa Amarilla, privacidad del Punto Violeta, Rayos X y `500 kg/m²`, conservación de afluencia con `EventDemandConfig`) deben quedar identificadas en la matriz con sus tests actuales.\n\n## Criterios de aceptación\n\n- [ ] Existe un documento de auditoría con la clasificación de todos los módulos y la matriz de brechas.\n- [ ] Una persona del equipo que no ha participado en la auditoría instala y arranca el proyecto siguiendo solo las instrucciones escritas ([ESP] §20.49).\n- [ ] `npm run lint`, `npm run test`, `npm run build` y `npm run test:e2e` se ejecutan y su resultado queda registrado con fecha y commit.\n- [ ] Los E2E pasan o cada fallo restante está registrado como problema conocido con su causa.\n- [ ] Cada una de las 5 restricciones no negociables tiene al menos un test identificado o una brecha registrada.\n\n## Pruebas / verificación\n\n- Ejecución completa de lint, unitarios, build y E2E en un entorno limpio (`npm ci`).\n- Revisión cruzada del documento por otra persona del equipo ([ESP] §24.161).\n- Comprobar que el grafo de imports ya no tiene ciclos o que los ciclos están registrados como deuda.\n\n## Riesgos y supuestos\n\n- **Riesgo:** convertir la auditoría en una refactorización grande. Mitigación: solo documentar y limpiar; las refactorizaciones van a tareas propias.\n- **Riesgo:** activar `strict` rompe 48 puntos. Decisión pendiente en OX-24 (no forma parte de esta tarea).\n- **Supuesto:** la auditoría preliminar del 25/11 sigue vigente; hay que reconfirmarla sobre el último commit de `main`.\n\n## Entregables\n\n1. Documento de auditoría y matriz de brechas.\n2. Instrucciones de instalación actualizadas.\n3. Registro de problemas conocidos.\n4. Commits de limpieza y reparación de E2E (si se aprueban).\n",
       "status": "open",
-      "version": 4,
+      "version": 5,
       "created_by": "Importación original",
       "updated_by": "YELODESA",
       "created_at": "2026-11-25T00:10:04+00:00",
-      "updated_at": "2026-11-25T10:35:55+00:00",
+      "updated_at": "2026-11-25T10:48:25+00:00",
       "reviewed_by": null,
       "reviewed_at": null,
       "comments": [],
       "attachments": [],
       "activity": [
+        {
+          "actor": "YELODESA",
+          "action": "tarea-editada",
+          "detail": "frustration, author_effort",
+          "created_at": "2026-11-25T10:48:25+00:00"
+        },
         {
           "actor": "YELODESA",
           "action": "tarea-editada",
